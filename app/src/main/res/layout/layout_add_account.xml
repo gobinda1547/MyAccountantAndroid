@@ -1,0 +1,112 @@
+<ScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#e3e3e3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.AddAccountActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/enterAccountNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_name"
+            android:inputType="text"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:textColor="#000"
+            android:background="#f0f0f4"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <EditText
+            android:id="@+id/enterAccountMobileNumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/mobile_number"
+            android:inputType="number"
+            android:maxLength="11"
+            android:maxLines="1"
+            android:textColor="#000"
+            android:background="#f0f0f4"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <EditText
+            android:id="@+id/enterAccountAddressEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_address"
+            android:inputType="text"
+            android:maxLength="35"
+            android:maxLines="1"
+            android:textColor="#000"
+            android:background="#f0f0f4"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"            >
+
+            <FrameLayout
+                android:id="@+id/camera_preview"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_weight="1"
+                android:drawablePadding="16dp"
+                android:layout_gravity="center"
+                android:onClick="swapCameraDirection"/>
+
+            <ImageView
+                android:id="@+id/enterAccountImage"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:inputType="text"
+                android:textColor="#000"
+                android:layout_weight="1"
+                android:background="#f0f0f4"
+                android:layout_gravity="center"
+                android:contentDescription="@string/imagefromlivecamerapreview"
+                android:drawablePadding="16dp"
+                android:onClick="takePictureFromLiveCamera"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/idForButtonAccountSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f0f0f4"
+            android:textColor="#000"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:onClick="saveAccountButtonPressed"
+            android:padding="10dp"
+            android:text="@string/create_account"/>
+
+    </LinearLayout>
+
+</ScrollView>
