@@ -73,11 +73,7 @@ public class AccountTable extends SQLiteOpenHelper{
             Cursor rs = db.rawQuery("SELECT  * FROM " + TABLE_NAME, null);
             if (rs.moveToFirst()) {
                 do {
-                    Account acc = new Account();
-                    acc.setAccountId(rs.getInt(0));
-                    acc.setAccountName(rs.getString(1));
-                    acc.setAccountMobileNumber(rs.getString(2));
-                    acc.setAccountImage(rs.getBlob(3));
+                    Account acc = new Account( rs.getInt(0), rs.getString(1), rs.getString(2), rs.getBlob(3));
                     accountList.add(acc);
                 } while (rs.moveToNext());
             }
@@ -88,8 +84,26 @@ public class AccountTable extends SQLiteOpenHelper{
         return accountList;
     }
 
-    public Account getAccountAccordingToID(int accountID){
+    public boolean updateAccount(Account account){
+        try{
+            String whereCondition = C1+" = ?";
+            String[] whereConditionValues = new String[]{String.valueOf(account.getAccountId())};
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(C1, account.getAccountId());
+            values.put(C2, account.getAccountName());
+            values.put(C3, account.getAccountMobileNumber());
+            values.put(C4, account.getAccountImage());
+            db.update(TABLE_NAME,values,whereCondition,whereConditionValues);
+            //db.close();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 
+    public Account getAccountAccordingToID(int accountID){
         Account acc = null;
         try{
             SQLiteDatabase db = this.getReadableDatabase();
@@ -99,11 +113,7 @@ public class AccountTable extends SQLiteOpenHelper{
 
             Cursor rs = db.query(TABLE_NAME, selectedFields, condition, conditionValues, null, null, null, null);
             if(rs.moveToFirst()) {
-                acc = new Account();
-                acc.setAccountId(rs.getInt(0));
-                acc.setAccountName(rs.getString(1));
-                acc.setAccountMobileNumber(rs.getString(2));
-                acc.setAccountImage(rs.getBlob(3));
+                acc = new Account( rs.getInt(0), rs.getString(1), rs.getString(2), rs.getBlob(3));
             }
             rs.close();
         }catch (Exception e){
@@ -111,6 +121,5 @@ public class AccountTable extends SQLiteOpenHelper{
         }
         return acc;
     }
-
 
 }

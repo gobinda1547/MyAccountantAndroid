@@ -10,9 +10,11 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import java.io.ByteArrayOutputStream;
+
 import myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.CameraPreview;
 
-public class MyImageProcessing {
+public class ImageProcessingSupport {
 
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
@@ -52,10 +54,16 @@ public class MyImageProcessing {
         return BitmapFactory.decodeByteArray(imageArray, 0, imageArray.length, options);
     }
 
+    public static byte[] convertIntoByteArray(Bitmap bitmap){
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+        return bos.toByteArray();
+    }
+
     public static Bitmap cropSquareImage(Bitmap bitmap){
 
-        int imageSize = Math.min(MyScreenSize.SCREEN_WIDTH, MyScreenSize.SCREEN_HEIGHT);
-        int squareLen = Math.min(  MyScreenSize.CAMERA_PICTURE_WIDTH, MyScreenSize.CAMERA_PICTURE_HEIGHT);
+        int imageSize = Math.min(SizeRelatedSupport.SCREEN_WIDTH, SizeRelatedSupport.SCREEN_HEIGHT);
+        int squareLen = Math.min(  SizeRelatedSupport.CAMERA_PICTURE_WIDTH, SizeRelatedSupport.CAMERA_PICTURE_HEIGHT);
 
         Matrix matrix = new Matrix();
         Bitmap cropped = Bitmap.createBitmap(bitmap, 0, 10, squareLen, squareLen, matrix, true);

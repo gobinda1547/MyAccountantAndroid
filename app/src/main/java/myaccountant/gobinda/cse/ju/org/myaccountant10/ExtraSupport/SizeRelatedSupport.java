@@ -1,6 +1,8 @@
 package myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport;
 
-public class MyScreenSize{
+public class SizeRelatedSupport {
+
+    public static boolean screenSizeInitialized;
 
     public static int SCREEN_WIDTH;
     public  static int SCREEN_HEIGHT;
@@ -9,13 +11,14 @@ public class MyScreenSize{
     static int CAMERA_PICTURE_HEIGHT;
 
     public static void initializeScreenSize(int WIDTH, int HEIGHT){
-        MyScreenSize.SCREEN_WIDTH = WIDTH;
-        MyScreenSize.SCREEN_HEIGHT = HEIGHT;
+        SizeRelatedSupport.SCREEN_WIDTH = WIDTH;
+        SizeRelatedSupport.SCREEN_HEIGHT = HEIGHT;
+        screenSizeInitialized = true;
     }
 
     public static void initializeCameraPictureSize(int WIDTH, int HEIGHT){
-        MyScreenSize.CAMERA_PICTURE_WIDTH = WIDTH;
-        MyScreenSize.CAMERA_PICTURE_HEIGHT = HEIGHT;
+        SizeRelatedSupport.CAMERA_PICTURE_WIDTH = WIDTH;
+        SizeRelatedSupport.CAMERA_PICTURE_HEIGHT = HEIGHT;
     }
 
 

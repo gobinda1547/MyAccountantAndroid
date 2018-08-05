@@ -23,7 +23,7 @@
     <string name="select_account_image">Select Account Image</string>
     <string name="here_goes_to_the_name">Here goes to the Name</string>
     <string name="here_goes_to_the_mobile_number">Here goes to the mobile number</string>
-    <string name="menu_sign">⋮</string>
+    <string name="menu_sign"> ⋮ </string>
     <string name="showing_user_selected_image">Showing User Selected Image!</string>
     <string name="showing_user_image">Showing User Image</string>
     <string name="account_name">Account Name</string>
@@ -37,4 +37,12 @@
     <string name="menu_1">Menu 1</string>
     <string name="menu_2">Menu 2</string>
     <string name="menu_3">Menu 3</string>
+    <string name="add_account_take_mobile_number">Enter Mobile Number Here</string>
+    <string name="add_account_take_name">Enter Name Here</string>
+
+    <string name="mobile_number_not_found">Mobile Number Not Found!</string>
+    <string name="edit_account_update_information">Update Information</string>
+    <string name="item1">Item1</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+
 </resources>

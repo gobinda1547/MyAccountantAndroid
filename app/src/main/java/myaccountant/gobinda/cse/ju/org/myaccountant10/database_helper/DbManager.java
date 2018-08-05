@@ -3,6 +3,7 @@ package myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper;
 import android.content.Context;
 
 public class DbManager {
+
     private static  DbManager dbManager;
 
     private AccountTable accountTable;

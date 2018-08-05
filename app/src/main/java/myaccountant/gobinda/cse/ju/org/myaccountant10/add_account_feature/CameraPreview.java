@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.MyScreenSize;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.SizeRelatedSupport;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     public SurfaceHolder surfaceHolder;
@@ -64,7 +64,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             Camera.Parameters camParams = camera.getParameters();
 
             Camera.Size previewSize = camParams.getSupportedPreviewSizes().get(0);
-            int IMAGE_SIZE = Math.min(MyScreenSize.SCREEN_WIDTH, MyScreenSize.SCREEN_HEIGHT);
+            int IMAGE_SIZE = Math.min(SizeRelatedSupport.SCREEN_WIDTH, SizeRelatedSupport.SCREEN_HEIGHT);
 
             Log.d("debug", String.format("image size len = %d",IMAGE_SIZE));
             for (Camera.Size size : camParams.getSupportedPreviewSizes()) {
@@ -84,7 +84,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 }
             }
             camParams.setPictureSize(pictureSize.width, pictureSize.height);
-            MyScreenSize.initializeCameraPictureSize(pictureSize.width,pictureSize.height);
+            SizeRelatedSupport.initializeCameraPictureSize(pictureSize.width,pictureSize.height);
 
             camera.setParameters(camParams);
 

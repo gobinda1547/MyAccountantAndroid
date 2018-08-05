@@ -8,6 +8,19 @@ public class Account {
     private String accountMobileNumber;
     private byte[] accountImage;
 
+    public Account(int accountId, String accountName, String accountMobileNumber, byte[] accountImage) {
+        this.accountId = accountId;
+        this.accountName = accountName;
+        this.accountMobileNumber = accountMobileNumber;
+        this.accountImage = accountImage;
+    }
+
+    public Account( String accountName, String accountMobileNumber, byte[] accountImage) {
+        this.accountName = accountName;
+        this.accountMobileNumber = accountMobileNumber;
+        this.accountImage = accountImage;
+    }
+
     public int getAccountId() {
         return accountId;
     }
@@ -22,19 +35,4 @@ public class Account {
 
     public byte[] getAccountImage(){ return accountImage; }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-
-    public void setAccountMobileNumber(String accountMobileNumber) {
-        this.accountMobileNumber = accountMobileNumber;
-    }
-
-    public void setAccountImage(byte[] accountImage) {
-        this.accountImage = accountImage;
-    }
 }

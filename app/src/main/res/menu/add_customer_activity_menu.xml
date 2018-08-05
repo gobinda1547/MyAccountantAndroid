@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/add_customer_menu_goBackToMainScreen"
-        android:icon="@android:drawable/ic_delete"
-        android:title="Item"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="@string/item1"
         app:showAsAction="always" />
 </menu>

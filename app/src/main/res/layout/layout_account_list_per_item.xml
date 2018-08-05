@@ -62,6 +62,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:text="@string/menu_sign"
+                android:textStyle="bold"
                 android:layout_margin="10dp"
                 android:gravity="end|center_vertical"
                 android:textAppearance="?android:textAppearanceLarge" />

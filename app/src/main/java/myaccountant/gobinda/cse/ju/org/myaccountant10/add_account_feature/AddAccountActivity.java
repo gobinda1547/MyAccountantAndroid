@@ -12,15 +12,16 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 
-import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.MyImageProcessing;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.ImageProcessingSupport;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.NameRelatedSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.DbManager;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Account;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_list_feature.ShowAccountListActivity;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.take_image_feature.TakeImageActivity;
 
 public class AddAccountActivity extends AppCompatActivity {
 
-    private static byte[] userSelectedImage;
     private static String userTypedUserName;
     private static String userTypedMobileNumber;
 
@@ -33,9 +34,9 @@ public class AddAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_add_account);
 
-        enterName = findViewById(R.id.enterAccountNameEditText);
-        enterMobileNumber = findViewById(R.id.enterAccountMobileNumberEditText);
-        imageView = findViewById(R.id.enterAccountImage);
+        enterName = findViewById(R.id.addAccountEditTextAccountName);
+        enterMobileNumber = findViewById(R.id.addAccountEditTextAccountMobileNumber);
+        imageView = findViewById(R.id.addAccountImageViewAccountImage);
 
         if(userTypedUserName!= null && userTypedUserName.length()!=0){
             enterName.setText(userTypedUserName);
@@ -45,16 +46,12 @@ public class AddAccountActivity extends AppCompatActivity {
             enterMobileNumber.setText(userTypedMobileNumber);
         }
 
+        Bitmap userSelectedImage = TakeImageActivity.getUserSelectedImage();
         if(userSelectedImage == null){
             imageView.setImageResource(R.drawable.b);
             return;
         }
-
-        Bitmap selectedImage = MyImageProcessing.convertIntoBitmap(userSelectedImage);
-        selectedImage = MyImageProcessing.rotateImage(selectedImage, (CameraPreview.showingFrontCamera)? 270:90);
-        selectedImage = MyImageProcessing.cropSquareImage(selectedImage);
-        selectedImage = MyImageProcessing.getRoundedCornerBitmap(selectedImage);
-        imageView.setImageBitmap(selectedImage);
+        imageView.setImageBitmap(userSelectedImage);
     }
 
     public void saveAccountButtonPressed(View v){
@@ -68,26 +65,21 @@ public class AddAccountActivity extends AppCompatActivity {
             String mobile = enterMobileNumber.getText().toString().trim();
 
             Bitmap bitmapImageFromImageView = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-            bitmapImageFromImageView = MyImageProcessing.getRoundedCornerBitmap(bitmapImageFromImageView);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmapImageFromImageView.compress(Bitmap.CompressFormat.PNG, 0, bos);
-            byte[] byteArray =  bos.toByteArray();
+            bitmapImageFromImageView = ImageProcessingSupport.getRoundedCornerBitmap(bitmapImageFromImageView);
+            byte[] byteArray = ImageProcessingSupport.convertIntoByteArray(bitmapImageFromImageView);
 
-            Account account = new Account();
-            account.setAccountName(name);
-            account.setAccountMobileNumber(mobile);
-            account.setAccountImage(byteArray);
-
+            Account account = new Account(name,mobile,byteArray);
             if(DbManager.getAccountTableAccess().insertAccount(account)){
                 Toast.makeText(AddAccountActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
 
+                //remove saved variable first then go back
+                removeSavedVariable();
+
                 //account saved so go back to the account list view
                 Intent intent = new Intent(AddAccountActivity.this, ShowAccountListActivity.class);
+                intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.ADD_ACCOUNT_ACTIVITY);
                 startActivity(intent);
                 finish();
-
-                //remove user typed or selected variables
-                initializeUserVariables();
             } else {
                 Toast.makeText(AddAccountActivity.this, "Account can't be created!", Toast.LENGTH_SHORT).show();
             }
@@ -97,24 +89,30 @@ public class AddAccountActivity extends AppCompatActivity {
     }
 
     public void openTakeImageActivity(View v){
-        //remove previous selected image
-        userSelectedImage = null;
 
         //save currently typed username and mobile number
         userTypedUserName = enterName.getText().toString();
         userTypedMobileNumber = enterMobileNumber.getText().toString();
 
         Intent intent = new Intent(AddAccountActivity.this, TakeImageActivity.class);
+        intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.ADD_ACCOUNT_ACTIVITY);
         startActivity(intent);
+        finish();
     }
 
-    public static  void setUserSelectedImage(byte[] imageArray){
-        userSelectedImage = imageArray;
+    @Override
+    public void onBackPressed() {
+        //remove saved variable first then go back
+        removeSavedVariable();
+
+        //go back to home
+        Intent intent = new Intent(AddAccountActivity.this, ShowAccountListActivity.class);
+        intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.ADD_ACCOUNT_ACTIVITY);
+        startActivity(intent);
+        finish();
     }
 
-
-    public static void initializeUserVariables(){
-        userSelectedImage = null;
+    public void removeSavedVariable(){
         userTypedUserName = null;
         userTypedMobileNumber = null;
     }
