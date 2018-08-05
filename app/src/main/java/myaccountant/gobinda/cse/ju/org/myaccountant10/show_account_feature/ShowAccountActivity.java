@@ -25,9 +25,6 @@ public class ShowAccountActivity extends AppCompatActivity {
         ImageView imageViewForImage = findViewById(R.id.idForShowingAccountImage);
         TextView textViewForName = findViewById(R.id.idForShowingAccountName);
         TextView textViewForMobile = findViewById(R.id.idForShowingAccountMobileNumber);
-        TextView textViewForAddress = findViewById(R.id.idForShowingAccountAddress);
-        TextView textViewForBalance = findViewById(R.id.idForShowingAccountBalance);
-        TextView textViewForStatus = findViewById(R.id.idForShowingAccountStatus);
 
         Account currentAccount;
         try{
@@ -43,17 +40,11 @@ public class ShowAccountActivity extends AppCompatActivity {
             e.printStackTrace();
             return;
         }
-        //int gAccountId = currentAccount.getAccountId();
         String gAccountName = currentAccount.getAccountName();
         String gAccountMobileNumber = currentAccount.getAccountMobileNumber();
-        long gAccountBalance = currentAccount.getAccountBalance();
-        String gAccountAddress = currentAccount.getAccountAddress();
 
         textViewForName.setText(gAccountName);
         textViewForMobile.setText((gAccountMobileNumber == null || gAccountMobileNumber.length() == 0)? "Number Not Found": gAccountMobileNumber);
-        textViewForAddress.setText((gAccountAddress == null || gAccountAddress.length() == 0)? "Address Not Found" : gAccountAddress);
-        textViewForBalance.setText(String.valueOf(gAccountBalance));
-        textViewForStatus.setText((gAccountBalance >= 0)? "জমা আছে":"খরচ হয়েছে");
 
         byte[] imageData = currentAccount.getAccountImage();
         Bitmap bitmapImage = BitmapFactory.decodeByteArray(imageData,0,imageData.length);

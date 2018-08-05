@@ -5,10 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
- * Created by gobinda22 on 7/20/2018.
- */
-
 public class TransactionTable extends SQLiteOpenHelper{
 
     private static final int DATABASE_VERSION = 1;
@@ -21,7 +17,7 @@ public class TransactionTable extends SQLiteOpenHelper{
     private static final String C4 = "c4_transaction_type";
     private static final String C5 = "c5_transaction_amount";
 
-    public TransactionTable(Context context) {
+    TransactionTable(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -29,16 +25,15 @@ public class TransactionTable extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 
         try{
-            StringBuilder sbForTransaction = new StringBuilder();
-            sbForTransaction.append("CREATE TABLE " + TABLE_NAME + "(");
-            sbForTransaction.append(C1 +"  INTEGER NOT NULL AUTO_INCREMENT,");
-            sbForTransaction.append(C2 + " INTEGER NOT NULL,");
-            sbForTransaction.append(C3 + " TEXT NOT NULL,");
-            sbForTransaction.append(C4 + " flag INTEGER DEFAULT 0,");
-            sbForTransaction.append(C5 + " INTEGER NOT NULL,");
-            sbForTransaction.append("PRIMARY KEY ("+C1+"))");
-            db.execSQL(sbForTransaction.toString());
-            //db.close();
+            String sbForTransaction = "";
+            sbForTransaction = sbForTransaction.concat("CREATE TABLE " + TABLE_NAME + "(");
+            sbForTransaction = sbForTransaction.concat(C1 +"  INTEGER NOT NULL AUTO_INCREMENT,");
+            sbForTransaction = sbForTransaction.concat(C2 + " INTEGER NOT NULL,");
+            sbForTransaction = sbForTransaction.concat(C3 + " TEXT NOT NULL,");
+            sbForTransaction = sbForTransaction.concat(C4 + " flag INTEGER DEFAULT 0,");
+            sbForTransaction = sbForTransaction.concat(C5 + " INTEGER NOT NULL,");
+            sbForTransaction = sbForTransaction.concat("PRIMARY KEY ("+C1+"))");
+            db.execSQL(sbForTransaction);
             Log.d("table creation","TransactionTable created");
         }catch (Exception e){
             e.printStackTrace();

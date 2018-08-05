@@ -25,6 +25,7 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
+                android:contentDescription="@string/showing_user_image"
                 android:layout_margin="2dp"
                 android:src="@drawable/a" />
 
@@ -32,9 +33,9 @@
                 android:id="@+id/textView1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Account Name"
+                android:text="@string/account_name"
                 android:textColor="@android:color/holo_blue_dark"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" />
@@ -54,9 +55,9 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Mobile Number"
+                android:text="@string/mobile_number_showing"
                 android:textColor="@android:color/holo_blue_dark"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" />
@@ -71,70 +72,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Address"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
-
-            <TextView
-                android:id="@+id/idForShowingAccountAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:background="#f0f0f4"
-                android:padding="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Account Balance"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
-
-            <TextView
-                android:id="@+id/idForShowingAccountBalance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:background="#f0f0f4"
-                android:padding="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Account Status"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
-
-            <TextView
-                android:id="@+id/idForShowingAccountStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:background="#f0f0f4"
-                android:padding="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
-
-
             <Button
                 android:id="@+id/idForButtonAccountSave"
                 android:layout_width="match_parent"
@@ -147,7 +84,7 @@
                 android:layout_marginBottom="5dp"
                 android:onClick="goBackToHomeActivity"
                 android:padding="10dp"
-                android:text="Go Back To Home"/>
+                android:text="@string/go_back_to_home"/>
 
 
         </LinearLayout>

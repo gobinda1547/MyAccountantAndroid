@@ -9,15 +9,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.media.Image;
-
-import java.io.IOException;
 
 import myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.CameraPreview;
-
-/**
- * Created by gobinda22 on 8/4/2018.
- */
 
 public class MyImageProcessing {
 
@@ -29,12 +22,9 @@ public class MyImageProcessing {
         final int color = 0xff424242;
         final Paint paint = new Paint();
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        //Log.d("width = ", String.valueOf(bitmap.getWidth()));
-        //Log.d("hight = ", String.valueOf(bitmap.getHeight()));
 
         final RectF rectF = new RectF(rect);
-        int pixels = bitmap.getWidth()/2;
-        final float roundPx = pixels;
+        final float roundPx = bitmap.getWidth()/2;
 
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
@@ -56,32 +46,25 @@ public class MyImageProcessing {
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
-
-    public static Bitmap processImage(byte[] data) {
-        // Determine the width/height of the image
-        int IMAGE_SIZE = 300;
-        //int width = camera.getParameters().getPictureSize().width;
-        //int height = camera.getParameters().getPictureSize().height;
-        int width = IMAGE_SIZE, height = IMAGE_SIZE;
-
-        // Load the bitmap from the byte array
+    public static Bitmap convertIntoBitmap(byte[] imageArray){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        return BitmapFactory.decodeByteArray(imageArray, 0, imageArray.length, options);
+    }
 
-        // Rotate and crop the image into a square
-        int croppedWidth = (width > height) ? height : width;
-        int croppedHeight = (width > height) ? height : width;
+    public static Bitmap cropSquareImage(Bitmap bitmap){
+
+        int imageSize = Math.min(MyScreenSize.SCREEN_WIDTH, MyScreenSize.SCREEN_HEIGHT);
+        int squareLen = Math.min(  MyScreenSize.CAMERA_PICTURE_WIDTH, MyScreenSize.CAMERA_PICTURE_HEIGHT);
 
         Matrix matrix = new Matrix();
-        //matrix.postRotate(IMAGE_ORIENTATION);
-        Bitmap cropped = Bitmap.createBitmap(bitmap, 0, 0, croppedWidth, croppedHeight, matrix, true);
+        Bitmap cropped = Bitmap.createBitmap(bitmap, 0, 10, squareLen, squareLen, matrix, true);
         bitmap.recycle();
 
-        // Scale down to the output size
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(cropped, IMAGE_SIZE, IMAGE_SIZE, true);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(cropped, imageSize, imageSize, true);
         cropped.recycle();
 
         return scaledBitmap;
     }
+
 }

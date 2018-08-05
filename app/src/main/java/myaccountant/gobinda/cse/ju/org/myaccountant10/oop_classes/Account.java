@@ -1,16 +1,11 @@
 package myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes;
 
-/**
- * Created by gobinda22 on 7/20/2018.
- */
 
 public class Account {
 
     private int accountId;
     private String accountName;
     private String accountMobileNumber;
-    private long accountBalance;
-    private String accountAddress;
     private byte[] accountImage;
 
     public int getAccountId() {
@@ -25,16 +20,7 @@ public class Account {
         return accountMobileNumber;
     }
 
-    public long getAccountBalance() {
-        return accountBalance;
-    }
-
-    public String getAccountAddress() {
-        return accountAddress;
-    }
-
     public byte[] getAccountImage(){ return accountImage; }
-
 
     public void setAccountId(int accountId) {
         this.accountId = accountId;
@@ -46,14 +32,6 @@ public class Account {
 
     public void setAccountMobileNumber(String accountMobileNumber) {
         this.accountMobileNumber = accountMobileNumber;
-    }
-
-    public void setAccountBalance(long accountBalance) {
-        this.accountBalance = accountBalance;
-    }
-
-    public void setAccountAddress(String accountAddress) {
-        this.accountAddress = accountAddress;
     }
 
     public void setAccountImage(byte[] accountImage) {

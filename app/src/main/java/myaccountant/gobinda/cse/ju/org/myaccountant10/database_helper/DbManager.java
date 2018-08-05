@@ -2,10 +2,6 @@ package myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper;
 
 import android.content.Context;
 
-/**
- * Created by gobinda22 on 7/29/2018.
- */
-
 public class DbManager {
     private static  DbManager dbManager;
 
@@ -19,7 +15,7 @@ public class DbManager {
         }
     }
 
-    public DbManager(Context context){
+    private DbManager(Context context){
         accountTable = new AccountTable(context);
         transactionTable = new TransactionTable(context);
     }

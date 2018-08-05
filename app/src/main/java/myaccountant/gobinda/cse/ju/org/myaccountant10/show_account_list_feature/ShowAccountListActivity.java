@@ -1,13 +1,14 @@
 package myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_list_feature;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 
 import android.view.Display;
@@ -19,13 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.MyScreenSize;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.MyImageProcessing;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.AddAccountActivity;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.DbManager;
@@ -54,7 +55,7 @@ public class ShowAccountListActivity extends AppCompatActivity {
         });
 
         List<Account> accounts = DbManager.getAccountTableAccess().getAllTheAccountFromTable();
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(accounts);
+        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(accounts,this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -62,7 +63,7 @@ public class ShowAccountListActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        MyScreenSize.initialize(size.x, size.y);
+        MyScreenSize.initializeScreenSize(size.x, size.y);
     }
 
 
@@ -78,6 +79,7 @@ public class ShowAccountListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int choosenItemId = item.getItemId();
         if(choosenItemId == R.id.main_activity_menu_addnewaccount){
+            AddAccountActivity.initializeUserVariables();
             Intent intent = new Intent(ShowAccountListActivity.this, AddAccountActivity.class);
             startActivity(intent);
             //finish();
@@ -90,8 +92,11 @@ public class ShowAccountListActivity extends AppCompatActivity {
 
         private List<Account> accounts;
 
-        private MyRecyclerViewAdapter(List<Account> accounts){
+        private Context mCtx;
 
+        private MyRecyclerViewAdapter(List<Account> accounts, Context mCtx){
+
+            this.mCtx = mCtx;
             Collections.sort(accounts, new Comparator<Account>() {
                 @Override
                 public int compare(Account t1, Account t2) {
@@ -113,29 +118,22 @@ public class ShowAccountListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(AccountViewHolder accountViewHolder, int i) {
+        public void onBindViewHolder(final AccountViewHolder accountViewHolder, int i) {
             Account currentAccount = accounts.get(i);
 
             //int gAccountId = currentAccount.getAccountId();
             String gAccountName = currentAccount.getAccountName();
             String gAccountMobileNumber = currentAccount.getAccountMobileNumber();
-            long gAccountBalance = currentAccount.getAccountBalance();
-            String gAccountAddress = currentAccount.getAccountAddress();
+            //long gAccountBalance = currentAccount.getAccountBalance();
 
-            accountViewHolder.accountName.setText(gAccountName);
-            accountViewHolder.accountAddress.setText((gAccountAddress == null || gAccountAddress.length() == 0)? "Address Not Found" : gAccountAddress);
-            accountViewHolder.accountMobileNumber.setText((gAccountMobileNumber == null || gAccountMobileNumber.length() == 0)? "Number Not Found": gAccountMobileNumber);
-            accountViewHolder.accountStatus.setText((gAccountBalance >= 0)? "জমা আছে":"খরচ হয়েছে");
-            accountViewHolder.accountBalance.setText(String.valueOf(gAccountBalance));
-
-
-            //accountViewHolder.accountImage.setImageResource(R.drawable.a);
             byte[] imageFromDB = currentAccount.getAccountImage();
             Bitmap image = BitmapFactory.decodeByteArray(imageFromDB,0,imageFromDB.length);
-            accountViewHolder.accountImage.setImageBitmap(MyImageProcessing.getRoundedCornerBitmap(image));
 
-            accountViewHolder.accountBalance.setTextColor( (gAccountBalance >= 0 )? Color.BLUE : Color.RED);
-            accountViewHolder.accountStatus.setTextColor( (gAccountBalance >= 0 )? Color.BLUE : Color.RED);
+
+            //gAccountName = (gAccountName.length()>15)?
+            accountViewHolder.accountName.setText(gAccountName);
+            accountViewHolder.accountMobileNumber.setText((gAccountMobileNumber == null || gAccountMobileNumber.length() == 0)? "Number Not Found": gAccountMobileNumber);
+            accountViewHolder.accountImage.setImageBitmap(image);
 
             final int position = i;
             accountViewHolder.accountImage.setOnClickListener(new View.OnClickListener() {
@@ -149,24 +147,46 @@ public class ShowAccountListActivity extends AppCompatActivity {
                 }
             });
 
+            accountViewHolder.textViewOptions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    PopupMenu popup = new PopupMenu(mCtx, accountViewHolder.textViewOptions);
+                    popup.inflate(R.menu.menu_account_list_per_item);
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.menu1:
+                                    Toast.makeText(ShowAccountListActivity.this,"menu 1 selected!",Toast.LENGTH_LONG).show();                                    break;
+                                case R.id.menu2:
+                                    Toast.makeText(ShowAccountListActivity.this,"menu 1 selected!",Toast.LENGTH_LONG).show();
+                                    break;
+                                case R.id.menu3:
+                                    Toast.makeText(ShowAccountListActivity.this,"menu 1 selected!",Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+                    popup.show();
+                }
+            });
+
         }
         class AccountViewHolder extends RecyclerView.ViewHolder {
 
             private TextView accountName;
-            private TextView accountAddress;
             private TextView accountMobileNumber;
-            private TextView accountStatus ;
-            private TextView accountBalance;
             private ImageView accountImage;
+            private TextView textViewOptions;
 
             private AccountViewHolder(View itemView) {
                 super(itemView);
                 accountName = itemView.findViewById(R.id.idForAccountName);
-                accountAddress = itemView.findViewById(R.id.idForAccountAddress);
                 accountMobileNumber = itemView.findViewById(R.id.idForAccountMobileNumber);
-                accountStatus = itemView.findViewById(R.id.idForAccountStatus);
-                accountBalance = itemView.findViewById(R.id.idForAccountBalance);
                 accountImage = itemView.findViewById(R.id.idForAccountImage);
+                textViewOptions = itemView.findViewById(R.id.textViewOptions);
             }
         }
 

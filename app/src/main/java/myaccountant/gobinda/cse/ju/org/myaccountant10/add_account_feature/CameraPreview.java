@@ -3,6 +3,7 @@ package myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -59,45 +60,39 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             }else {
                 camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
             }
-            initializeCameraSize2();
+
+            Camera.Parameters camParams = camera.getParameters();
+
+            Camera.Size previewSize = camParams.getSupportedPreviewSizes().get(0);
+            int IMAGE_SIZE = Math.min(MyScreenSize.SCREEN_WIDTH, MyScreenSize.SCREEN_HEIGHT);
+
+            Log.d("debug", String.format("image size len = %d",IMAGE_SIZE));
+            for (Camera.Size size : camParams.getSupportedPreviewSizes()) {
+                if (size.width >= IMAGE_SIZE && size.height >= IMAGE_SIZE) {
+                    previewSize = size;
+                    break;
+                }
+            }
+            camParams.setPreviewSize(previewSize.width, previewSize.height);
+
+            // Try to find the closest picture size to match the preview size.
+            Camera.Size pictureSize = camParams.getSupportedPictureSizes().get(0);
+            for (Camera.Size size : camParams.getSupportedPictureSizes()) {
+                if (size.width == previewSize.width && size.height == previewSize.height) {
+                    pictureSize = size;
+                    break;
+                }
+            }
+            camParams.setPictureSize(pictureSize.width, pictureSize.height);
+            MyScreenSize.initializeCameraPictureSize(pictureSize.width,pictureSize.height);
+
+            camera.setParameters(camParams);
+
             camera.setDisplayOrientation(90);
         }
         catch (Exception e){
             e.printStackTrace();
         }
-    }
-    public void initializeCameraSize2(){
-        Camera.Parameters camParam = camera.getParameters();
-        int squareSize = Math.min(MyScreenSize.getWidth(), MyScreenSize.getHeight());
-        camParam.setPreviewSize(squareSize,squareSize);
-        camParam.setPictureSize(squareSize,squareSize);
-    }
-
-    public void initializeCameraSize1(){
-        Camera.Parameters camParams = camera.getParameters();
-
-        // Find a preview size that is at least the size of our IMAGE_SIZE
-        Camera.Size previewSize = camParams.getSupportedPreviewSizes().get(0);
-        //int IMAGE_SIZE = Math.min(MyScreenSize.getWidth(),MyScreenSize.getHeight());
-        int IMAGE_SIZE = 200;
-        for (Camera.Size size : camParams.getSupportedPreviewSizes()) {
-            if (size.width >= IMAGE_SIZE && size.height >= IMAGE_SIZE) {
-                previewSize = size;
-                break;
-            }
-        }
-        camParams.setPreviewSize(previewSize.width, previewSize.height);
-
-        // Try to find the closest picture size to match the preview size.
-        Camera.Size pictureSize = camParams.getSupportedPictureSizes().get(0);
-        for (Camera.Size size : camParams.getSupportedPictureSizes()) {
-            if (size.width == previewSize.width && size.height == previewSize.height) {
-                pictureSize = size;
-                break;
-            }
-        }
-        camParams.setPictureSize(pictureSize.width, pictureSize.height);
-
     }
 
     public void releaseCamera(){
