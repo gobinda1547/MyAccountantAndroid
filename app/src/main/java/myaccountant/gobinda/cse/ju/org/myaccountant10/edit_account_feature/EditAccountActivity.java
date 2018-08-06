@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +26,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
     private static String userTypedName;
     private static String userTypedMobileNumber;
+    private static Bitmap userSelectedImage;
 
     private TextView textViewForName;
     private TextView textViewForMobile;
@@ -41,43 +41,33 @@ public class EditAccountActivity extends AppCompatActivity {
         textViewForName = findViewById(R.id.idForShowingAccountName);
         textViewForMobile = findViewById(R.id.idForShowingAccountMobileNumber);
 
-        if(currentAccountId == NameRelatedSupport.NULL_ID) {
-            try {
-                String accountID = getIntent().getStringExtra(NameRelatedSupport.ACCOUNT_ID);
-                currentAccountId = Integer.parseInt(accountID);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(EditAccountActivity.this,"Account ID invalid!",Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-
-        Account currentAccount = AccountTable.getInstance(this).getAccountAccordingToID(currentAccountId);
-        textViewForName.setText(currentAccount.getAccountName());
-        textViewForMobile.setText(currentAccount.getAccountMobileNumber());
-
-        if(userTypedName != null){
+        String accIDfromParentActivity = getIntent().getStringExtra(NameRelatedSupport.ACCOUNT_ID);
+        if(accIDfromParentActivity == null || accIDfromParentActivity.length() == 0){
             textViewForName.setText(userTypedName);
-        }
-
-        if(userTypedMobileNumber != null){
             textViewForMobile.setText(userTypedMobileNumber);
+
+            Bitmap userSelectedNewImage = TakeImageActivity.getUserSelectedImage();
+            if(userSelectedNewImage != null){
+                imageViewForImage.setImageBitmap(userSelectedNewImage);
+            }else{
+                imageViewForImage.setImageBitmap(userSelectedImage);
+            }
+            return;
         }
 
-        Bitmap userSelectedNewImage = TakeImageActivity.getUserSelectedImage();
-        if(userSelectedNewImage == null){
-            byte[] imageData = currentAccount.getAccountImage();
-            imageViewForImage.setImageBitmap(ImageProcessingSupport.convertIntoBitmap(imageData));
-        }else{
-            imageViewForImage.setImageBitmap(userSelectedNewImage);
-        }
+        //parsing current account id
+        currentAccountId = Integer.parseInt(accIDfromParentActivity);
 
-        Log.d("1Debug","in the on create method!");
-        if(userTypedName != null)
-            Log.d("1Debug_name",userTypedName);
-        if(userTypedMobileNumber != null)
-            Log.d("1Debug_mobile",userTypedMobileNumber);
+        //getting account object from database
+        Account currentAccount = AccountTable.getInstance(this).getAccountAccordingToID(currentAccountId);
 
+        userTypedName = currentAccount.getAccountName();
+        userTypedMobileNumber = currentAccount.getAccountMobileNumber();
+        userSelectedImage = ImageProcessingSupport.convertIntoBitmap(currentAccount.getAccountImage());
+
+        textViewForName.setText(userTypedName);
+        textViewForMobile.setText(userTypedMobileNumber);
+        imageViewForImage.setImageBitmap(userSelectedImage);
     }
 
 
@@ -130,10 +120,6 @@ public class EditAccountActivity extends AppCompatActivity {
         //first save the user edited information
         userTypedName = textViewForName.getText().toString();
         userTypedMobileNumber = textViewForMobile.getText().toString();
-        Log.d("Debug","saved okay");
-        Log.d("Debug_name",userTypedName);
-        Log.d("Debug_mobile",userTypedMobileNumber);
-
 
         //then go to image activity to take an image
         Intent intent = new Intent(EditAccountActivity.this, TakeImageActivity.class);

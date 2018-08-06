@@ -175,8 +175,24 @@ public class TakeImageActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(TakeImageActivity.this, AddAccountActivity.class);
-        startActivity(intent);
-        finish();
+        if(userSelectedImage == null){
+            Toast.makeText(TakeImageActivity.this,"You didn't Capture Any Image!",Toast.LENGTH_LONG).show();
+        }
+
+        Intent intent;
+        switch (parentActivityName){
+            case NameRelatedSupport.ADD_ACCOUNT_ACTIVITY:
+                intent = new Intent(TakeImageActivity.this, AddAccountActivity.class);
+                intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.TAKE_IMAGE_ACTIVITY);
+                startActivity(intent);
+                finish();
+                break;
+            case NameRelatedSupport.EDIT_ACCOUNT_ACTIVITY:
+                intent = new Intent(TakeImageActivity.this, EditAccountActivity.class);
+                intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.TAKE_IMAGE_ACTIVITY);
+                startActivity(intent);
+                finish();
+                break;
+        }
     }
 }

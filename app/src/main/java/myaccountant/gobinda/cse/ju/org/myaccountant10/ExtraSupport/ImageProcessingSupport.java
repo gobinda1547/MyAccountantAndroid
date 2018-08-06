@@ -65,7 +65,7 @@ public class ImageProcessingSupport {
         int imageSize = Math.min(SizeRelatedSupport.SCREEN_WIDTH, SizeRelatedSupport.SCREEN_HEIGHT);
         //we need maximum 200x200 image
         //this is also reduce memory cost for users
-        imageSize = Math.min(200,imageSize);
+        imageSize = Math.min(100,imageSize);
 
         Matrix matrix = new Matrix();
         Bitmap cropped = Bitmap.createBitmap(bitmap, 0, 10, squareLen, squareLen, matrix, true);
