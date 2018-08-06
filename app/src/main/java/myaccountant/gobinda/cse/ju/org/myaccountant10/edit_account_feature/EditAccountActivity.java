@@ -16,8 +16,7 @@ import java.io.ByteArrayOutputStream;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.ImageProcessingSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.NameRelatedSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.AddAccountActivity;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.DbManager;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.AccountTable;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Account;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_list_feature.ShowAccountListActivity;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.take_image_feature.TakeImageActivity;
@@ -53,7 +52,7 @@ public class EditAccountActivity extends AppCompatActivity {
             }
         }
 
-        Account currentAccount = DbManager.getAccountTableAccess().getAccountAccordingToID(currentAccountId);
+        Account currentAccount = AccountTable.getInstance(this).getAccountAccordingToID(currentAccountId);
         textViewForName.setText(currentAccount.getAccountName());
         textViewForMobile.setText(currentAccount.getAccountMobileNumber());
 
@@ -110,7 +109,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
 
         Account account = new Account(currentAccountId,accName,accMobile,byteArray);
-        if(DbManager.getAccountTableAccess().updateAccount(account)){
+        if(AccountTable.getInstance(this).updateAccount(account)){
             Toast.makeText(EditAccountActivity.this, "Account Updated!", Toast.LENGTH_SHORT).show();
 
             //remove saved variable first then go back

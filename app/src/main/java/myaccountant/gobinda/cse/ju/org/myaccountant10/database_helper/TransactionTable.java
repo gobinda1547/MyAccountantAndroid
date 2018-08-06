@@ -17,7 +17,7 @@ public class TransactionTable extends SQLiteOpenHelper{
     private static final String C4 = "c4_transaction_type";
     private static final String C5 = "c5_transaction_amount";
 
-    TransactionTable(Context context) {
+    private TransactionTable(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

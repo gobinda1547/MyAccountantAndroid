@@ -15,6 +15,8 @@ import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Account;
 
 public class AccountTable extends SQLiteOpenHelper{
 
+    private static AccountTable accountTable;
+
     private static final int DATABASE_VERSION = 1;
 
     private static final String DATABASE_NAME = "my_accountant";
@@ -25,8 +27,15 @@ public class AccountTable extends SQLiteOpenHelper{
     private static final String C3 = "c3_account_mobile_number";
     private static final String C4 = "c4_account_image";
 
-    AccountTable(Context context) {
+    private AccountTable(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public static AccountTable getInstance(Context context){
+        if(accountTable == null){
+            accountTable = new AccountTable(context);
+        }
+        return accountTable;
     }
 
     @Override
@@ -40,7 +49,6 @@ public class AccountTable extends SQLiteOpenHelper{
             sbForAccount = sbForAccount.concat(C3 + " TEXT NOT NULL, ");
             sbForAccount = sbForAccount.concat(C4 + " BLOB );");
             db.execSQL(sbForAccount);
-            db.close();
         }catch (Exception e){
             e.printStackTrace();
         }

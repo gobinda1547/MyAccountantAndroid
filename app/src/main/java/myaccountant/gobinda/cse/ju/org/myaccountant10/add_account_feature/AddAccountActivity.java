@@ -10,11 +10,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.ImageProcessingSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.NameRelatedSupport;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.DbManager;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.AccountTable;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Account;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_list_feature.ShowAccountListActivity;
@@ -69,7 +67,7 @@ public class AddAccountActivity extends AppCompatActivity {
             byte[] byteArray = ImageProcessingSupport.convertIntoByteArray(bitmapImageFromImageView);
 
             Account account = new Account(name,mobile,byteArray);
-            if(DbManager.getAccountTableAccess().insertAccount(account)){
+            if(AccountTable.getInstance(this).insertAccount(account)){
                 Toast.makeText(AddAccountActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
 
                 //remove saved variable first then go back

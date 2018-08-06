@@ -30,7 +30,7 @@ import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.NameRelatedSu
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.SizeRelatedSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.AddAccountActivity;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.DbManager;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.AccountTable;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Account;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.edit_account_feature.EditAccountActivity;
 
@@ -50,9 +50,6 @@ public class ShowAccountListActivity extends AppCompatActivity {
             SizeRelatedSupport.initializeScreenSize(size.x, size.y);
         }
 
-        //also an one time initialization for database
-        DbManager.initialize(this);
-
         RecyclerView recyclerView = findViewById(R.id.idForAccountList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +60,7 @@ public class ShowAccountListActivity extends AppCompatActivity {
             }
         });
 
-        List<Account> accounts = DbManager.getAccountTableAccess().getAllTheAccountFromTable();
+        List<Account> accounts = AccountTable.getInstance(this).getAllTheAccountFromTable();
         MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(accounts,this);
         recyclerView.setAdapter(adapter);
     }
