@@ -9,7 +9,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-
 import java.io.ByteArrayOutputStream;
 
 import myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.CameraPreview;
@@ -62,8 +61,11 @@ public class ImageProcessingSupport {
 
     public static Bitmap cropSquareImage(Bitmap bitmap){
 
-        int imageSize = Math.min(SizeRelatedSupport.SCREEN_WIDTH, SizeRelatedSupport.SCREEN_HEIGHT);
         int squareLen = Math.min(  SizeRelatedSupport.CAMERA_PICTURE_WIDTH, SizeRelatedSupport.CAMERA_PICTURE_HEIGHT);
+        int imageSize = Math.min(SizeRelatedSupport.SCREEN_WIDTH, SizeRelatedSupport.SCREEN_HEIGHT);
+        //we need maximum 200x200 image
+        //this is also reduce memory cost for users
+        imageSize = Math.min(200,imageSize);
 
         Matrix matrix = new Matrix();
         Bitmap cropped = Bitmap.createBitmap(bitmap, 0, 10, squareLen, squareLen, matrix, true);
