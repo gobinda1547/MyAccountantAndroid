@@ -40,6 +40,7 @@ public class AccountTable extends SQLiteOpenHelper{
             sbForAccount = sbForAccount.concat(C3 + " TEXT NOT NULL, ");
             sbForAccount = sbForAccount.concat(C4 + " BLOB );");
             db.execSQL(sbForAccount);
+            db.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -59,6 +60,7 @@ public class AccountTable extends SQLiteOpenHelper{
             cv.put(C3, account.getAccountMobileNumber());
             cv.put(C4, account.getAccountImage());
             db.insert(TABLE_NAME, null, cv );
+            db.close();
         }catch (Exception e){
             return false;
         }
@@ -78,6 +80,7 @@ public class AccountTable extends SQLiteOpenHelper{
                 } while (rs.moveToNext());
             }
             rs.close();
+            db.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -95,7 +98,7 @@ public class AccountTable extends SQLiteOpenHelper{
             values.put(C3, account.getAccountMobileNumber());
             values.put(C4, account.getAccountImage());
             db.update(TABLE_NAME,values,whereCondition,whereConditionValues);
-            //db.close();
+            db.close();
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -116,6 +119,7 @@ public class AccountTable extends SQLiteOpenHelper{
                 acc = new Account( rs.getInt(0), rs.getString(1), rs.getString(2), rs.getBlob(3));
             }
             rs.close();
+            db.close();
         }catch (Exception e){
             e.printStackTrace();
         }
