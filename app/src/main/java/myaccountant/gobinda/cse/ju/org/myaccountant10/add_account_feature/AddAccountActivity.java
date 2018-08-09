@@ -10,9 +10,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.ImageProcessingSupport;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.InternalMemorySupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.NameRelatedSupport;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.AccountTable;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.DatabaseHelper;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Account;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_list_feature.ShowAccountListActivity;
@@ -47,27 +47,31 @@ public class AddAccountActivity extends AppCompatActivity {
         Bitmap userSelectedImage = TakeImageActivity.getUserSelectedImage();
         if(userSelectedImage == null){
             imageView.setImageResource(R.drawable.b);
-            return;
+        }else {
+            imageView.setImageBitmap(userSelectedImage);
         }
-        imageView.setImageBitmap(userSelectedImage);
     }
 
     public void saveAccountButtonPressed(View v){
         try{
 
             String name = enterName.getText().toString().trim();
+            String mobile = enterMobileNumber.getText().toString().trim();
+            Bitmap bitmapImageFromImageView = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
             if(name.length() == 0){
                 Toast.makeText(AddAccountActivity.this,"Name Can't be EMPTY!",Toast.LENGTH_SHORT).show();
                 return;
             }
-            String mobile = enterMobileNumber.getText().toString().trim();
 
-            Bitmap bitmapImageFromImageView = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-            bitmapImageFromImageView = ImageProcessingSupport.getRoundedCornerBitmap(bitmapImageFromImageView);
-            byte[] byteArray = ImageProcessingSupport.convertIntoByteArray(bitmapImageFromImageView);
+            String imageFileName = InternalMemorySupport.writeImageFileInInternalMemory(bitmapImageFromImageView);
+            if(imageFileName == null){
+                Toast.makeText(AddAccountActivity.this,"Can not write image file into memory!",Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            Account account = new Account(name,mobile,byteArray);
-            if(AccountTable.getInstance(this).insertAccount(account)){
+            Account account = new Account(name,mobile,imageFileName);
+            if(DatabaseHelper.getInstance(this).insertAccount(account)){
                 Toast.makeText(AddAccountActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
 
                 //remove saved variable first then go back
@@ -79,6 +83,7 @@ public class AddAccountActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else {
+                InternalMemorySupport.deleteImageFileFromInternalMemory(imageFileName);
                 Toast.makeText(AddAccountActivity.this, "Account can't be created!", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){

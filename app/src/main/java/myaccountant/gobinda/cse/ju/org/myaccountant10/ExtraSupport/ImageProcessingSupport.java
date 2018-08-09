@@ -1,5 +1,8 @@
 package myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport;
 
+
+import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,7 +14,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import java.io.ByteArrayOutputStream;
 
-import myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.CameraPreview;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.take_image_feature.CameraPreview;
 
 public class ImageProcessingSupport {
 
@@ -63,9 +66,6 @@ public class ImageProcessingSupport {
 
         int squareLen = Math.min(  SizeRelatedSupport.CAMERA_PICTURE_WIDTH, SizeRelatedSupport.CAMERA_PICTURE_HEIGHT);
         int imageSize = Math.min(SizeRelatedSupport.SCREEN_WIDTH, SizeRelatedSupport.SCREEN_HEIGHT);
-        //we need maximum 200x200 image
-        //this is also reduce memory cost for users
-        imageSize = Math.min(100,imageSize);
 
         Matrix matrix = new Matrix();
         Bitmap cropped = Bitmap.createBitmap(bitmap, 0, 10, squareLen, squareLen, matrix, true);
@@ -75,6 +75,10 @@ public class ImageProcessingSupport {
         cropped.recycle();
 
         return scaledBitmap;
+    }
+
+    public static Bitmap getDefaultAccountImage(Context context){
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.b);
     }
 
 }

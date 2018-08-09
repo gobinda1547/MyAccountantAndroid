@@ -5,7 +5,6 @@ import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.ImageProcessi
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.NameRelatedSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.AddAccountActivity;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.CameraPreview;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.edit_account_feature.EditAccountActivity;
 
 import android.app.Activity;

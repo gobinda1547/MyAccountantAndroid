@@ -5,6 +5,7 @@
     <!-- for taking picture with the camera -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -16,37 +17,57 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
         <activity
             android:name=".show_account_list_feature.ShowAccountListActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:launchMode= "singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity
             android:name=".add_account_feature.AddAccountActivity"
-            android:label="Add An Account">
+            android:label="Add An Account"
+            android:launchMode= "singleInstance">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".show_account_list_feature.ShowAccountListActivity" />
         </activity>
+
+
         <activity
             android:name=".edit_account_feature.EditAccountActivity"
-            android:label="Add An Account">
+            android:label="Add An Account"
+            android:launchMode= "singleInstance">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".show_account_list_feature.ShowAccountListActivity" />
         </activity>
+
+
         <activity
             android:name=".take_image_feature.TakeImageActivity"
-            android:label="Add An Account">
+            android:label="Add An Account"
+            android:launchMode= "singleInstance">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".add_account_feature.AddAccountActivity" />
         </activity>
-        <activity android:name=".show_account_transaction_feature.ShowAccountTransactionActivity"></activity>
+
+
+        <activity android:name=".show_account_transaction_feature.ShowAccountTransactionActivity"
+            android:launchMode= "singleInstance"/>
+
+
+        <activity android:name=".add_transaction_feature.AddTransactionActivity"
+            android:launchMode= "singleInstance"/>
+
     </application>
 
 </manifest>

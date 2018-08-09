@@ -1,0 +1,74 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorBackgroundFloating"
+        android:orientation="vertical"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Select lenden type"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <ToggleButton
+            android:id="@+id/addAccountEditTextAccountName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:maxLines="1"
+            android:maxLength="15"
+            android:textColor="#000"
+            android:background="#f0f0f4"
+            android:padding="10dp"
+            android:hint="@string/add_account_take_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="enter amount"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <EditText
+            android:id="@+id/addAccountEditTextAccountMobileNumber"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="#000"
+            android:background="#f0f0f4"
+            android:maxLength="11"
+            android:padding="10dp"
+            android:inputType="number"
+            android:hint="@string/add_account_take_mobile_number"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <Button
+            android:id="@+id/popUpShowAddTransactionSaveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f0f0f4"
+            android:textColor="#000"
+            android:layout_margin="10dp"
+            android:onClick="saveAccountButtonPressed"
+            android:padding="10dp"
+            android:text="@string/create_account"/>
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

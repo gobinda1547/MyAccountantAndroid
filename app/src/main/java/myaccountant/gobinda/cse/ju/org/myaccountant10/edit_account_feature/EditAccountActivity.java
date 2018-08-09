@@ -10,12 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.ImageProcessingSupport;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.InternalMemorySupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.NameRelatedSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.AccountTable;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.DatabaseHelper;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Account;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_list_feature.ShowAccountListActivity;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.take_image_feature.TakeImageActivity;
@@ -59,11 +58,14 @@ public class EditAccountActivity extends AppCompatActivity {
         currentAccountId = Integer.parseInt(accIDfromParentActivity);
 
         //getting account object from database
-        Account currentAccount = AccountTable.getInstance(this).getAccountAccordingToID(currentAccountId);
+        Account currentAccount = DatabaseHelper.getInstance(this).getAccountAccordingToID(currentAccountId);
 
         userTypedName = currentAccount.getAccountName();
         userTypedMobileNumber = currentAccount.getAccountMobileNumber();
-        userSelectedImage = ImageProcessingSupport.convertIntoBitmap(currentAccount.getAccountImage());
+        userSelectedImage = InternalMemorySupport.getImageFileFromThisLocation(currentAccount.getAccountImageLocation());
+        if(userSelectedImage == null){
+            userSelectedImage = ImageProcessingSupport.getDefaultAccountImage(this);
+        }
 
         textViewForName.setText(userTypedName);
         textViewForMobile.setText(userTypedMobileNumber);
@@ -85,21 +87,22 @@ public class EditAccountActivity extends AppCompatActivity {
     public void updateAccountInformation(View v){
 
         String accName = textViewForName.getText().toString();
+        String accMobile = textViewForMobile.getText().toString();
+        Bitmap bitmapImageFromImageView = ((BitmapDrawable) imageViewForImage.getDrawable()).getBitmap();
+
         if(accName.length() == 0){
             Toast.makeText(EditAccountActivity.this,"Name Can't be EMPTY!",Toast.LENGTH_SHORT).show();
             return;
         }
-        String accMobile = textViewForMobile.getText().toString();
 
-        Bitmap bitmapImageFromImageView = ((BitmapDrawable) imageViewForImage.getDrawable()).getBitmap();
-        bitmapImageFromImageView = ImageProcessingSupport.getRoundedCornerBitmap(bitmapImageFromImageView);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmapImageFromImageView.compress(Bitmap.CompressFormat.PNG, 0, bos);
-        byte[] byteArray =  bos.toByteArray();
+        String imageFileName = InternalMemorySupport.writeImageFileInInternalMemory(bitmapImageFromImageView);
+        if(imageFileName == null){
+            Toast.makeText(EditAccountActivity.this,"Can not create image file into memory!",Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-
-        Account account = new Account(currentAccountId,accName,accMobile,byteArray);
-        if(AccountTable.getInstance(this).updateAccount(account)){
+        Account account = new Account(currentAccountId,accName,accMobile,imageFileName);
+        if(DatabaseHelper.getInstance(this).updateAccount(account)){
             Toast.makeText(EditAccountActivity.this, "Account Updated!", Toast.LENGTH_SHORT).show();
 
             //remove saved variable first then go back
@@ -111,6 +114,7 @@ public class EditAccountActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
+            InternalMemorySupport.deleteImageFileFromInternalMemory(imageFileName);
             Toast.makeText(EditAccountActivity.this, "Account can't be Updated!", Toast.LENGTH_SHORT).show();
         }
     }

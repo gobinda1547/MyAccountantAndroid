@@ -8,24 +8,32 @@ package myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes;
 
 public class Transaction {
 
-    private int customerId;
+    private int transactionID;
+    private int accountId;
     private int transactionBalance;
     private String transactionDate;
-    private String transactiondetails;
 
-    public Transaction(int customerId, int transactionBalance, String transactionDate, String transactiondetails) {
-        this.customerId = customerId;
+    public Transaction(int transactionID, int accountId, int transactionBalance, String transactionDate) {
+        this.transactionID = transactionID;
+        this.accountId = accountId;
         this.transactionBalance = transactionBalance;
         this.transactionDate = transactionDate;
-        this.transactiondetails = transactiondetails;
     }
 
-    public String getTransactiondetails() {
-        return transactiondetails;
+    public Transaction(int accountId, int transactionBalance, String transactionDate) {
+        this.accountId = accountId;
+        this.transactionBalance = transactionBalance;
+        this.transactionDate = transactionDate;
     }
 
-    public int getCustomerId() {
-        return customerId;
+
+
+    public int getTransactionID() {
+        return transactionID;
+    }
+
+    public int getAccountId() {
+        return accountId;
     }
 
     public int getTransactionBalance() {
@@ -35,4 +43,5 @@ public class Transaction {
     public String getTransactionDate() {
         return transactionDate;
     }
+
 }

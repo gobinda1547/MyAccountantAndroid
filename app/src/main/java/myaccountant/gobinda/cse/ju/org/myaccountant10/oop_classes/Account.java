@@ -6,19 +6,19 @@ public class Account {
     private int accountId;
     private String accountName;
     private String accountMobileNumber;
-    private byte[] accountImage;
+    private String accountImageLocation;
 
-    public Account(int accountId, String accountName, String accountMobileNumber, byte[] accountImage) {
+    public Account(int accountId, String accountName, String accountMobileNumber, String accountImageLocation) {
         this.accountId = accountId;
         this.accountName = accountName;
         this.accountMobileNumber = accountMobileNumber;
-        this.accountImage = accountImage;
+        this.accountImageLocation = accountImageLocation;
     }
 
-    public Account( String accountName, String accountMobileNumber, byte[] accountImage) {
+    public Account( String accountName, String accountMobileNumber, String accountImageLocation) {
         this.accountName = accountName;
         this.accountMobileNumber = accountMobileNumber;
-        this.accountImage = accountImage;
+        this.accountImageLocation = accountImageLocation;
     }
 
     public int getAccountId() {
@@ -33,6 +33,6 @@ public class Account {
         return accountMobileNumber;
     }
 
-    public byte[] getAccountImage(){ return accountImage; }
+    public String getAccountImageLocation(){ return accountImageLocation; }
 
 }

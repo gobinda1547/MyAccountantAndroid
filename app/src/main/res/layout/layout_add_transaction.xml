@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="myaccountant.gobinda.cse.ju.org.myaccountant10.add_transaction_feature.AddTransactionActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/addTransactionToggleButtonForJomaKhoroch"
+                android:layout_width="100dp"
+                android:layout_height="match_parent" />
+
+
+            <EditText
+                android:id="@+id/addTransactionEditTextForAmount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:onClick="saveThisTransaction"/>
+
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

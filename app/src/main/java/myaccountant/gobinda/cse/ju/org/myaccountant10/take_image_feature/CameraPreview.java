@@ -1,4 +1,4 @@
-package myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature;
+package myaccountant.gobinda.cse.ju.org.myaccountant10.take_image_feature;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -6,6 +6,7 @@ import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.SizeRelatedSupport;
 
@@ -18,7 +19,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public CameraPreview(Context context) {
         super(context);
         if(checkCameraAvailableOrNot()) {
-            initializeCamera();
+            initializeCamera(context);
         }
 
         surfaceHolder = getHolder();
@@ -53,7 +54,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         //releaseCamera();
     }
 
-    public void initializeCamera(){
+    public void initializeCamera(Context context){
         try {
             if(showingFrontCamera) {
                 camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
@@ -66,7 +67,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             Camera.Size previewSize = camParams.getSupportedPreviewSizes().get(0);
             int IMAGE_SIZE = Math.min(SizeRelatedSupport.SCREEN_WIDTH, SizeRelatedSupport.SCREEN_HEIGHT);
 
-            Log.d("debug", String.format("image size len = %d",IMAGE_SIZE));
+            //Log.d("debug", String.format("image size len = %d",IMAGE_SIZE));
             for (Camera.Size size : camParams.getSupportedPreviewSizes()) {
                 if (size.width >= IMAGE_SIZE && size.height >= IMAGE_SIZE) {
                     previewSize = size;
@@ -92,6 +93,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
         catch (Exception e){
             e.printStackTrace();
+            Toast.makeText(context,"Camera Not Available or Missing Permission!",Toast.LENGTH_LONG).show();
         }
     }
 
