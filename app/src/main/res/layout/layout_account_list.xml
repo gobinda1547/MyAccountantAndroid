@@ -6,7 +6,7 @@
     tools:context="myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_list_feature.ShowAccountListActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/idForAccountList"
+        android:id="@+id/ShowAccountListFeatureRecycleViewForShowingAccountList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

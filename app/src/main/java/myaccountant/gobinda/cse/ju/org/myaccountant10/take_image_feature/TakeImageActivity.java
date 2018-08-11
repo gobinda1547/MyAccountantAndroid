@@ -4,11 +4,8 @@ package myaccountant.gobinda.cse.ju.org.myaccountant10.take_image_feature;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.ImageProcessingSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.NameRelatedSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.AddAccountActivity;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.edit_account_feature.EditAccountActivity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -22,9 +19,6 @@ public class TakeImageActivity extends Activity {
 
     private static Bitmap userSelectedImage;
 
-    private static String captureString = "Capture";
-    private static String parentActivityName;
-
     private FrameLayout frameLayout;
     private CameraPreview cameraPreview;
     private Button captureImageButton;
@@ -36,18 +30,15 @@ public class TakeImageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_take_image);
 
-        //extract parent activity name
-        parentActivityName = getIntent().getStringExtra("parentActivityName");
+        initializeVariables();
+    }
 
-        //remove previous selected image
+    private void initializeVariables() {
         userSelectedImage = null;
+        frameLayout = findViewById(R.id.TakeImageFeatureFrameLayoutForCameraPreview);
+        overlay = findViewById(R.id.TakeImageFeatureRelativeLayoutOverlay);
+        captureImageButton = findViewById(R.id.TakeImageFeatureButtonForCaptureImage);
 
-        //extract all the elements
-        frameLayout = findViewById(R.id.takeImageFrameLayoutForCameraPreview);
-        overlay = findViewById(R.id.takeImageRelativeLayoutOverlay);
-        captureImageButton = findViewById(R.id.takeImageButtonForCaptureImage);
-
-        //initialize camera preview
         cameraPreview = new CameraPreview(TakeImageActivity.this);
         if(! cameraPreview.checkCameraAvailableOrNot()){
             Toast.makeText(TakeImageActivity.this, "Camera not available!", Toast.LENGTH_SHORT).show();
@@ -80,9 +71,9 @@ public class TakeImageActivity extends Activity {
 
         //if button shows capture then we will capture otherwise
         //we will just start camera preview
-        if(!captureImageButton.getText().toString().equals(captureString)){
+        if(!captureImageButton.getText().toString().equals(NameRelatedSupport.CAPTURE)){
             cameraPreview.startPreview();
-            captureImageButton.setText(captureString);
+            captureImageButton.setText(NameRelatedSupport.CAPTURE);
 
             //capturing again means forget previous selected image
             userSelectedImage = null;
@@ -103,7 +94,7 @@ public class TakeImageActivity extends Activity {
         }catch(RuntimeException e){
             Toast.makeText(TakeImageActivity.this,"Camera not available!",Toast.LENGTH_LONG).show();
         }
-        captureImageButton.setText(captureString.concat(" Again"));
+        captureImageButton.setText(NameRelatedSupport.CAPTURE.concat(" Again"));
     }
 
     public void swapCameraDirection(View v){
@@ -129,7 +120,7 @@ public class TakeImageActivity extends Activity {
             frameLayout.addView(cameraPreview);
 
             //initialize capture button text
-            captureImageButton.setText(captureString);
+            captureImageButton.setText(NameRelatedSupport.CAPTURE);
 
             //swapping camera so forget previous selected image
             userSelectedImage = null;
@@ -147,22 +138,7 @@ public class TakeImageActivity extends Activity {
             Toast.makeText(TakeImageActivity.this,"You didn't Capture Any Image!",Toast.LENGTH_LONG).show();
         }
 
-        Intent intent;
-        switch (parentActivityName){
-            case NameRelatedSupport.ADD_ACCOUNT_ACTIVITY:
-                intent = new Intent(TakeImageActivity.this, AddAccountActivity.class);
-                intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.TAKE_IMAGE_ACTIVITY);
-                startActivity(intent);
-                finish();
-                break;
-            case NameRelatedSupport.EDIT_ACCOUNT_ACTIVITY:
-                intent = new Intent(TakeImageActivity.this, EditAccountActivity.class);
-                intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.TAKE_IMAGE_ACTIVITY);
-                startActivity(intent);
-                finish();
-                break;
-        }
-
+        finish();
     }
 
     public static Bitmap getUserSelectedImage(){
@@ -178,20 +154,6 @@ public class TakeImageActivity extends Activity {
             Toast.makeText(TakeImageActivity.this,"You didn't Capture Any Image!",Toast.LENGTH_LONG).show();
         }
 
-        Intent intent;
-        switch (parentActivityName){
-            case NameRelatedSupport.ADD_ACCOUNT_ACTIVITY:
-                intent = new Intent(TakeImageActivity.this, AddAccountActivity.class);
-                intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.TAKE_IMAGE_ACTIVITY);
-                startActivity(intent);
-                finish();
-                break;
-            case NameRelatedSupport.EDIT_ACCOUNT_ACTIVITY:
-                intent = new Intent(TakeImageActivity.this, EditAccountActivity.class);
-                intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.TAKE_IMAGE_ACTIVITY);
-                startActivity(intent);
-                finish();
-                break;
-        }
+        finish();
     }
 }

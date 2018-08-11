@@ -1,49 +1,88 @@
 <resources>
-    <string name="app_name">My Accountant 1.0</string>
-    <string name="add_customer">Add Customer</string>
-    <string name="title_activity_login">Sign in</string>
 
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="create_account">Create Account</string>
-    <string name="imagefromlivecamerapreview">imageFromLiveCameraPreview</string>
-    <string name="enter_address">Enter Address (Max Length 35)</string>
-    <string name="mobile_number">Enter Mobile Number (11 Length)</string>
-    <string name="enter_name">Enter Name (Max Length 25)</string>
-    <string name="select_account_image">Select Account Image</string>
-    <string name="here_goes_to_the_name">Here goes to the Name</string>
-    <string name="here_goes_to_the_mobile_number">Here goes to the mobile number</string>
-    <string name="menu_sign"> 〉 </string>
-    <string name="showing_user_selected_image">Showing User Selected Image!</string>
-    <string name="showing_user_image">Showing User Image</string>
-    <string name="account_name">Account Name</string>
-    <string name="mobile_number_showing">Mobile Number</string>
-    <string name="address">Address</string>
-    <string name="go_back_to_home">Go Back To Home</string>
-    <string name="use_this_image">Use This Image</string>
-    <string name="capture">Capture</string>
-    <string name="flip_camera">Flip Camera</string>
-    <string name="add_new_account">Add New Account</string>
-    <string name="menu_1">Menu 1</string>
-    <string name="menu_2">Menu 2</string>
-    <string name="menu_3">Menu 3</string>
-    <string name="add_account_take_mobile_number">Enter Mobile Number Here</string>
-    <string name="add_account_take_name">Enter Name Here</string>
+    <!-- all activity title -->
+    <string name="titleForShowAccountListActivity">সকল অ্যাকাউন্টের তালিকা</string>
+    <string name="titleForAddAccountActivity">নতুন একাউন্ট যোগ করুন</string>
+    <string name="titleForAddTransactionActivity">নতুন লেনদেন যোগ করুন</string>
+    <string name="titleForEditAccountActivity">অ্যাকাউন্টের তথ্য পরিবর্তন করুন</string>
+    <string name="titleForEditTransactionActivity">লেনদেনের তথ্য পরিবর্তন করুন</string>
+    <string name="titleForShowAccountTransactionActivity">সব লেনদেনের তালিকা</string>
 
-    <string name="mobile_number_not_found">Mobile Number Not Found!</string>
-    <string name="edit_account_update_information">Update Information</string>
-    <string name="item1">Item1</string>
-    <string name="enter_mobile_number">Enter Mobile Number</string>
-    <string name="add_new_transaction">add_new_transaction</string>
+
+
+    <!-- Show Account List Feature -->
+    <string name="showAccountListFeatureImageViewDescription">Account Image</string>
+    <string name="showAccountListFeatureTextViewForShowingAccountName">Account Name</string>
+    <string name="showAccountListFeatureTextViewForShowingMobileNumber">Account Mobile Number</string>
+    <string name="showAccountListFeatureTextViewForShowingMenuSign">&#8942;</string>
+
+
+
+    <!-- Show Transaction List Feature -->
+    <string name="showTransactionFeatureTextViewForShowingAccountName">Account Name</string>
+    <string name="showTransactionFeatureTextViewForShowingAccountBalance">Account Balance</string>
+    <string name="showTransactionFeatureTextViewForShowingAccountStatus">Account Status</string>
+
+    <string name="showTransactionFeatureTextViewForShowingTransactionDate">Transaction Date</string>
+    <string name="showTransactionFeatureTextViewForShowingTransactionStatus">Transaction Status</string>
+    <string name="showTransactionFeatureTextViewForShowingTransactionAmount">Transaction Amount</string>
+    <string name="showTransactionFeatureAccountImageDescription">Transaction Amount</string>
+
+
+
+    <!-- Add Account Feature -->
+    <string name="addAccountFeatureImageViewDescription">Enter Account Image</string>
+    <string name="addAccountFeatureEditTextForEnterAccountName">Enter Account Name</string>
+    <string name="addAccountFeatureTextViewHintsForEnterAccountName">Enter Account Name</string>
+    <string name="addAccountFeatureEditTextForEnterMobileNumber">Enter Account Mobile Number</string>
+    <string name="addAccountFeatureTextViewHintsForEnterMobileNumber">Enter Account Mobile Number</string>
+    <string name="addAccountFeatureButtonForSavingNewAccount">সংরক্ষণ করুন</string>
+
+
+
+    <!-- Edit Account Feature -->
+    <string name="editAccountFeatureImageViewDescription">Enter Account Image</string>
+    <string name="editAccountFeatureEditTextForEnterAccountName">Enter Account Name</string>
+    <string name="editAccountFeatureTextViewHintsForEnterAccountName">Enter Account Name</string>
+    <string name="editAccountFeatureEditTextForEnterMobileNumber">Enter Account Mobile Number</string>
+    <string name="editAccountFeatureTextViewHintsForEnterMobileNumber">Enter Account Mobile Number</string>
+    <string name="editAccountFeatureButtonForSavingNewAccount">পরিবর্তন করুন</string>
+
+
+
+    <!-- Add Transaction Feature -->
+    <string name="addTransactionFeatureEditTextEnterTransactionAmount">Enter Transaction Amount</string>
+    <string name="addTransactionFeatureRadioButton1">দিয়েছেন</string>
+    <string name="addTransactionFeatureRadioButton2">নিয়েছেন</string>
+    <string name="addTransactionFeatureButtonForSavingNewTransaction">সংরক্ষণ করুন</string>
+
+
+
+    <!-- Show Account Details Feature -->
+    <string name="showAccountDetailsPopUpImageViewForShowingAccountImage">Show Account Image</string>
+    <string name="showAccountDetailsPopUpTextViewForShowingAccountName">Show Name Here</string>
+    <string name="showAccountDetailsPopUpTextViewForShowingAccountMobileNumber">Show Mobile Number here</string>
+    <string name="showAccountDetailsPopUpButtonForDismissPopUp">Done</string>
+
+
+
+    <!-- Take Image Feature -->
+    <string name="TakeImageFeatureButtonForFlipCamera">Flip Camera</string>
+    <string name="TakeImageFeatureButtonForCaptureImage">Capture</string>
+    <string name="TakeImageFeatureButtonForUseThisImage">Use This Image</string>
+    <string name="MenuItemForAddNewTransaction">Add Transaction</string>
+    <string name="MenuForCallAccountPerson">Call This Person</string>
+    <string name="MenuForMessageAccountPerson">Message This Person</string>
+    <string name="MenuForAddNewTransaction">Add New Transaction</string>
+
+
+
+    <!-- save money or spent money -->
+    <string name="giveMoney">দিয়েছেন</string>
+    <string name="takeMoney">নিয়েছেন</string>
+
+
+
+
 
 </resources>

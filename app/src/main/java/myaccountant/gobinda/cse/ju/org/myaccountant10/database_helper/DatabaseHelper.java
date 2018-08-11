@@ -13,10 +13,6 @@ import java.util.List;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Account;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Transaction;
 
-/**
- * Created by gobinda22 on 8/8/2018.
- */
-
 public class DatabaseHelper  extends SQLiteOpenHelper {
 
     private static DatabaseHelper dbHelper;
@@ -36,15 +32,6 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
     private static final String T2 = "transaction_account_id";
     private static final String T3 = "transaction_amount";
     private static final String T4 = "transaction_date_time";
-
-
-
-
-
-
-
-
-
 
     private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -13,39 +13,40 @@
             android:layout_margin="10dp">
 
             <ImageView
-                android:id="@+id/popUpAccountDetailsImage"
+                android:id="@+id/ShowAccountDetailsFeaturePopUpAccountImage"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:contentDescription="@string/showAccountDetailsPopUpImageViewForShowingAccountImage"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/b"
                 />
 
             <TextView
-                android:id="@+id/popUpAccountDetailsName"
+                android:id="@+id/ShowAccountDetailsFeaturePopUpAccountName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Show Name Here"
+                android:text="@string/showAccountDetailsPopUpTextViewForShowingAccountName"
                 android:gravity="center|bottom"
                 />
 
             <TextView
-                android:id="@+id/popUpAccountDetailsMobile"
+                android:id="@+id/ShowAccountDetailsFeaturePopUpAccountMobileNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Show Mobile Number here"
+                android:text="@string/showAccountDetailsPopUpTextViewForShowingAccountMobileNumber"
                 android:gravity="center|top"
                 />
 
             <Button
-                android:id="@+id/popUpAccountDetailsDismissButton"
+                android:id="@+id/ShowAccountDetailsFeaturePopUpDismissButton"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="50dp"
-                android:text="Done"
+                android:text="@string/showAccountDetailsPopUpButtonForDismissPopUp"
                 android:layout_gravity="center_horizontal"/>
 
         </LinearLayout>

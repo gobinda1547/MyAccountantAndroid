@@ -1,5 +1,6 @@
 package myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_transaction_feature;
 
+import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.ImageProcessingSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.InternalMemorySupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.NameRelatedSupport;
@@ -32,50 +33,70 @@ import java.util.List;
 
 public class ShowAccountTransactionActivity extends AppCompatActivity {
 
-    private static int currentAccountID = -1;
+    private Account currentAccount;
+
+    private TextView textViewForAccountName;
+    private TextView textViewForAccountBalance;
+    private TextView textViewForAccountStatus;
+    private ImageView imageViewForAccountImage;
+
+    private RecyclerView recyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_show_account_transaction);
+        setTitle(R.string.titleForShowAccountTransactionActivity);
 
-        TextView accountBalanceTextView = findViewById(R.id.showTransactionAccountBalanceTextView);
-        TextView accountTypeTextView = findViewById(R.id.showTransactionAccountTypeTextView);
-        ImageView accountImageImageView = findViewById(R.id.showTransactionAccountImageImageView);
+        initializeVariables();
+        displayScreen();
+    }
 
+    public void displayScreen(){
 
-        String idFromPreviousActivity = getIntent().getStringExtra(NameRelatedSupport.ACCOUNT_ID);
-        if(idFromPreviousActivity != null && idFromPreviousActivity.length() != 0){
-            currentAccountID = Integer.parseInt(idFromPreviousActivity);
-        }
+        textViewForAccountName.setText(currentAccount.getAccountName());
 
-        Account currentAccount = DatabaseHelper.getInstance(this).getAccountAccordingToID(currentAccountID);
-
-
-        RecyclerView recyclerView = findViewById(R.id.idForAccountTransactionList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        List<Transaction> transactions = DatabaseHelper.getInstance(this).getAllTheTransactionForTheAccountID(currentAccountID);
+        List<Transaction> transactions = DatabaseHelper.getInstance(this).getAllTheTransactionForTheAccountID(currentAccount.getAccountId());
         ShowAccountTransactionActivity.MyRecyclerViewAdapter adapter = new ShowAccountTransactionActivity.MyRecyclerViewAdapter(transactions);
         recyclerView.setAdapter(adapter);
+
+        Bitmap image = InternalMemorySupport.getImageFileFromThisLocation(currentAccount.getAccountImageLocation());
+        if(image == null){
+            image = ImageProcessingSupport.getDefaultAccountImage(this);
+        }
+        imageViewForAccountImage.setImageBitmap(image);
 
         int balance = 0;
         for(Transaction transaction : transactions){
             balance += transaction.getTransactionBalance();
         }
 
-        //reading file and showing
-        Bitmap image = InternalMemorySupport.getImageFileFromThisLocation(currentAccount.getAccountImageLocation());
-        if(image == null){
-            accountImageImageView.setImageResource(R.drawable.b);
+        if(balance >= 0){
+            textViewForAccountBalance.setText(String.valueOf(balance));
+            textViewForAccountBalance.append(" "+NameRelatedSupport.TAKA);
+            textViewForAccountBalance.setTextColor(Color.BLACK);
+            textViewForAccountStatus.setText(NameRelatedSupport.APNI_PABEN);
         }else{
-            accountImageImageView.setImageBitmap(image);
+            textViewForAccountBalance.setText(String.valueOf(-balance));
+            textViewForAccountBalance.append(" "+NameRelatedSupport.TAKA);
+            textViewForAccountBalance.setTextColor(Color.RED);
+            textViewForAccountStatus.setText(NameRelatedSupport.APNAR_KACE_PABE);
         }
 
-        accountBalanceTextView.setText((balance<0)? String.valueOf(balance*-1):String.valueOf(balance));
-        accountBalanceTextView.setTextColor((balance<0)? Color.RED : Color.BLACK);
-        accountTypeTextView.setText((balance<0)? "BAKI ACHE":"JOMA ACHE");
+    }
 
+    private void initializeVariables() {
+        textViewForAccountBalance = findViewById(R.id.ShowTransactionFeatureTextViewForShowingAccountBalance);
+        textViewForAccountName = findViewById(R.id.ShowTransactionFeatureTextViewForShowingAccountName);
+        textViewForAccountStatus = findViewById(R.id.ShowTransactionFeatureTextViewForShowingAccountStatus);
+        imageViewForAccountImage = findViewById(R.id.ShowTransactionFeatureImageViewForShowingAccountImage);
+
+        int currentAccountID = Integer.parseInt(getIntent().getStringExtra(NameRelatedSupport.ACCOUNT_ID));
+        currentAccount = DatabaseHelper.getInstance(this).getAccountAccordingToID(currentAccountID);
+
+        recyclerView = findViewById(R.id.ShowTransactionFeatureRecycleViewForShowingAllTransaction);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
@@ -88,18 +109,24 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.addTransactionMenuItem){
+        if(item.getItemId() == R.id.menuForAddNewTransaction){
             Intent intent = new Intent(ShowAccountTransactionActivity.this, AddTransactionActivity.class);
-            intent.putExtra(NameRelatedSupport.ACCOUNT_ID, String.valueOf(currentAccountID));
-            intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.SHOW_ACCOUNT_TRANSACTION_ACTIVITY);
+            intent.putExtra(NameRelatedSupport.ACCOUNT_ID, String.valueOf(currentAccount.getAccountId()));
             startActivity(intent);
-            finish();
         }
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayScreen();
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
     public class MyRecyclerViewAdapter  extends RecyclerView.Adapter<ShowAccountTransactionActivity.MyRecyclerViewAdapter.TransactionViewHolder>{
 
@@ -138,15 +165,15 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
             private Transaction transaction;
 
             private TextView transactionDateTextView;
-            private TextView transactionTypeTextView;
+            private TextView transactionStatusTextView;
             private TextView transactionAmountTextView;
 
             private TransactionViewHolder(View itemView) {
                 super(itemView);
 
-                transactionDateTextView = itemView.findViewById(R.id.idForTransactionDateTime);
-                transactionTypeTextView = itemView.findViewById(R.id.idForTransactionType);
-                transactionAmountTextView = itemView.findViewById(R.id.idForTransactionAmount);
+                transactionDateTextView = itemView.findViewById(R.id.ShowTransactionListFeatureTextViewForShowingTransactionDateTime);
+                transactionStatusTextView = itemView.findViewById(R.id.ShowTransactionListFeatureTextViewForShowingTransactionStatus);
+                transactionAmountTextView = itemView.findViewById(R.id.ShowTransactionListFeatureTextViewForShowingTransactionAmount);
 
                 itemView.setOnClickListener(this);
             }
@@ -158,10 +185,27 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
 
             private void showThisTransaction(Transaction transaction){
                 this.transaction = transaction;
-                Log.d("dbe", transaction.getTransactionDate());
                 transactionDateTextView.setText(transaction.getTransactionDate());
-                transactionTypeTextView.setText( (transaction.getTransactionBalance()>=0)? "JOMA":"KHOROCH");
+                transactionStatusTextView.setText((transaction.getTransactionBalance()>=0)? "জমা":"খরচ");
                 transactionAmountTextView.setText(String.valueOf(transaction.getTransactionBalance()));
+
+                if(transaction.getTransactionBalance() < 0){
+                    transactionDateTextView.setTextColor(Color.RED);
+                    transactionStatusTextView.setTextColor(Color.RED);
+                    transactionAmountTextView.setTextColor(Color.RED);
+
+                    transactionDateTextView.setText(transaction.getTransactionDate());
+                    transactionStatusTextView.setText(R.string.takeMoney);
+                    transactionAmountTextView.setText(String.valueOf(-transaction.getTransactionBalance()));
+                }else{
+                    transactionDateTextView.setTextColor(Color.BLACK);
+                    transactionStatusTextView.setTextColor(Color.BLACK);
+                    transactionAmountTextView.setTextColor(Color.BLACK);
+
+                    transactionDateTextView.setText(transaction.getTransactionDate());
+                    transactionStatusTextView.setText(R.string.giveMoney);
+                    transactionAmountTextView.setText(String.valueOf(transaction.getTransactionBalance()));
+                }
             }
         }
 

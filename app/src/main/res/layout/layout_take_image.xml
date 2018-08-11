@@ -4,14 +4,14 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/takeImageFrameLayoutForCameraPreview"
+        android:id="@+id/TakeImageFeatureFrameLayoutForCameraPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:drawablePadding="16dp"
         android:layout_gravity="center"/>
 
     <RelativeLayout
-        android:id="@+id/takeImageRelativeLayoutOverlay"
+        android:id="@+id/TakeImageFeatureRelativeLayoutOverlay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
@@ -28,19 +28,19 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/takeImageButtonForFlipCamera"
+                    android:id="@+id/TakeImageFeatureButtonForFlipCamera"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/flip_camera"
+                    android:text="@string/TakeImageFeatureButtonForFlipCamera"
                     android:onClick="swapCameraDirection"/>
 
                 <Button
-                    android:id="@+id/takeImageButtonForCaptureImage"
+                    android:id="@+id/TakeImageFeatureButtonForCaptureImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/capture"
+                    android:text="@string/TakeImageFeatureButtonForCaptureImage"
                     android:onClick="captureImageFromLiveCamera"/>
 
 
@@ -48,10 +48,10 @@
 
 
             <Button
-                android:id="@+id/takeImageButtonForUseThisImage"
+                android:id="@+id/TakeImageFeatureButtonForUseThisImage"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="@string/use_this_image"
+                android:text="@string/TakeImageFeatureButtonForUseThisImage"
                 android:onClick="okayWithCurrentImageNowGoBackToYourParentActivity"/>
 
         </LinearLayout>

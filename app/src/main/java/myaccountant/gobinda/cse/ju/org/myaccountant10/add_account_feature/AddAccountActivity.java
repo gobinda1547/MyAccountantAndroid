@@ -10,18 +10,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.ImageProcessingSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.InternalMemorySupport;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.NameRelatedSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.DatabaseHelper;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Account;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
-import myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_list_feature.ShowAccountListActivity;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.take_image_feature.TakeImageActivity;
 
 public class AddAccountActivity extends AppCompatActivity {
-
-    private static String userTypedUserName;
-    private static String userTypedMobileNumber;
 
     private EditText enterName;
     private EditText enterMobileNumber;
@@ -31,30 +27,34 @@ public class AddAccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_add_account);
+        setTitle(R.string.titleForAddAccountActivity);
 
-        enterName = findViewById(R.id.addAccountEditTextAccountName);
-        enterMobileNumber = findViewById(R.id.addAccountEditTextAccountMobileNumber);
-        imageView = findViewById(R.id.addAccountImageViewAccountImage);
+        initializeVariables();
+        displayScreen();
+    }
 
-        if(userTypedUserName!= null && userTypedUserName.length()!=0){
-            enterName.setText(userTypedUserName);
-        }
+    private void initializeVariables() {
+        enterName = findViewById(R.id.AddAccountFeatureEditTextForAddingAccountName);
+        enterMobileNumber = findViewById(R.id.AddAccountFeatureEditTextForAddingAccountMobile);
+        imageView = findViewById(R.id.AddAccountFeatureImageViewForAddingAccountImage);
+    }
 
-        if(userTypedMobileNumber!= null && userTypedMobileNumber.length()!=0){
-            enterMobileNumber.setText(userTypedMobileNumber);
-        }
-
+    public void displayScreen(){
         Bitmap userSelectedImage = TakeImageActivity.getUserSelectedImage();
         if(userSelectedImage == null){
-            imageView.setImageResource(R.drawable.b);
-        }else {
-            imageView.setImageBitmap(userSelectedImage);
+            userSelectedImage = ImageProcessingSupport.getDefaultAccountImage(this);
         }
+        imageView.setImageBitmap(userSelectedImage);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayScreen();
     }
 
     public void saveAccountButtonPressed(View v){
         try{
-
             String name = enterName.getText().toString().trim();
             String mobile = enterMobileNumber.getText().toString().trim();
             Bitmap bitmapImageFromImageView = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
@@ -64,7 +64,7 @@ public class AddAccountActivity extends AppCompatActivity {
                 return;
             }
 
-            String imageFileName = InternalMemorySupport.writeImageFileInInternalMemory(bitmapImageFromImageView);
+            String imageFileName = InternalMemorySupport.writeImageFileInInternalMemory(this,bitmapImageFromImageView);
             if(imageFileName == null){
                 Toast.makeText(AddAccountActivity.this,"Can not write image file into memory!",Toast.LENGTH_SHORT).show();
                 return;
@@ -74,13 +74,7 @@ public class AddAccountActivity extends AppCompatActivity {
             if(DatabaseHelper.getInstance(this).insertAccount(account)){
                 Toast.makeText(AddAccountActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
 
-                //remove saved variable first then go back
-                removeSavedVariable();
-
-                //account saved so go back to the account list view
-                Intent intent = new Intent(AddAccountActivity.this, ShowAccountListActivity.class);
-                intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.ADD_ACCOUNT_ACTIVITY);
-                startActivity(intent);
+                //go back to parent activity
                 finish();
             } else {
                 InternalMemorySupport.deleteImageFileFromInternalMemory(imageFileName);
@@ -91,32 +85,13 @@ public class AddAccountActivity extends AppCompatActivity {
         }
     }
 
-    public void openTakeImageActivity(View v){
-
-        //save currently typed username and mobile number
-        userTypedUserName = enterName.getText().toString();
-        userTypedMobileNumber = enterMobileNumber.getText().toString();
-
+    public void goToTakeImageActivity(View v){
         Intent intent = new Intent(AddAccountActivity.this, TakeImageActivity.class);
-        intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.ADD_ACCOUNT_ACTIVITY);
         startActivity(intent);
-        finish();
     }
 
     @Override
     public void onBackPressed() {
-        //remove saved variable first then go back
-        removeSavedVariable();
-
-        //go back to home
-        Intent intent = new Intent(AddAccountActivity.this, ShowAccountListActivity.class);
-        intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.ADD_ACCOUNT_ACTIVITY);
-        startActivity(intent);
         finish();
-    }
-
-    public void removeSavedVariable(){
-        userTypedUserName = null;
-        userTypedMobileNumber = null;
     }
 }

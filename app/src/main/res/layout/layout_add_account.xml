@@ -8,7 +8,8 @@
     android:orientation="vertical"
     tools:context="myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.AddAccountActivity">
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp">
@@ -21,20 +22,20 @@
             android:layout_margin="5dp">
 
             <ImageView
-                android:id="@+id/addAccountImageViewAccountImage"
+                android:id="@+id/AddAccountFeatureImageViewForAddingAccountImage"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
-                android:contentDescription="@string/showing_user_image"
+                android:contentDescription="@string/addAccountFeatureImageViewDescription"
                 android:layout_margin="10dp"
-                android:onClick="openTakeImageActivity"
+                android:onClick="goToTakeImageActivity"
                 android:src="@drawable/a" />
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/AddAccountFeatureTextViewHintsForAddingAccountName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/account_name"
+                android:text="@string/addAccountFeatureTextViewHintsForEnterAccountName"
                 android:textColor="@android:color/holo_blue_dark"
                 android:textSize="15sp"
                 android:layout_marginTop="10dp"
@@ -42,7 +43,7 @@
                 android:layout_marginRight="10dp" />
 
             <EditText
-                android:id="@+id/addAccountEditTextAccountName"
+                android:id="@+id/AddAccountFeatureEditTextForAddingAccountName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -50,15 +51,15 @@
                 android:textColor="#000"
                 android:background="#f0f0f4"
                 android:padding="10dp"
-                android:hint="@string/add_account_take_name"
+                android:hint="@string/addAccountFeatureEditTextForEnterAccountName"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/AddAccountFeatureTextViewHintsForAddingAccountMobile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/mobile_number_showing"
+                android:text="@string/addAccountFeatureTextViewHintsForEnterMobileNumber"
                 android:textColor="@android:color/holo_blue_dark"
                 android:textSize="15sp"
                 android:layout_marginTop="10dp"
@@ -66,7 +67,7 @@
                 android:layout_marginRight="10dp" />
 
             <EditText
-                android:id="@+id/addAccountEditTextAccountMobileNumber"
+                android:id="@+id/AddAccountFeatureEditTextForAddingAccountMobile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
@@ -74,12 +75,11 @@
                 android:maxLength="11"
                 android:padding="10dp"
                 android:inputType="number"
-                android:hint="@string/add_account_take_mobile_number"
+                android:hint="@string/addAccountFeatureEditTextForEnterMobileNumber"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" />
 
             <Button
-                android:id="@+id/addAccountButtonCreateAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#f0f0f4"
@@ -90,7 +90,7 @@
                 android:layout_marginBottom="5dp"
                 android:onClick="saveAccountButtonPressed"
                 android:padding="10dp"
-                android:text="@string/create_account"/>
+                android:text="@string/addAccountFeatureButtonForSavingNewAccount"/>
 
 
         </LinearLayout>

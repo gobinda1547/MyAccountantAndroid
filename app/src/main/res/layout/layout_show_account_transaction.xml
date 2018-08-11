@@ -6,19 +6,21 @@
     tools:context="myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_list_feature.ShowAccountListActivity">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cardViewForAccountProfile"
+        android:id="@+id/ShowAccountTransactionFeatureCardViewForShowingAccountDetails"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/showTransactionAccountImageImageView"
+                android:id="@+id/ShowTransactionFeatureImageViewForShowingAccountImage"
                 android:layout_width="100dp"
-                android:layout_height="match_parent"
+                android:layout_height="100dp"
                 android:layout_margin="5dp"
+                android:contentDescription="@string/showTransactionFeatureAccountImageDescription"
                 android:src="@drawable/b"
                 />
 
@@ -29,21 +31,29 @@
                 android:layout_margin="5dp">
 
                 <TextView
-                    android:id="@+id/showTransactionAccountBalanceTextView"
+                    android:id="@+id/ShowTransactionFeatureTextViewForShowingAccountName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Taka Show Korbe"
-                    android:textSize="25dp"
+                    android:text="@string/showTransactionFeatureTextViewForShowingAccountName"
+                    android:textSize="22sp"
                     android:gravity="bottom"/>
 
                 <TextView
-                    android:id="@+id/showTransactionAccountTypeTextView"
+                    android:id="@+id/ShowTransactionFeatureTextViewForShowingAccountBalance"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Joma Naki Baki Show Korbe"
-                    android:textSize="20dp"
+                    android:text="@string/showTransactionFeatureTextViewForShowingAccountBalance"
+                    android:textSize="22sp"/>
+
+                <TextView
+                    android:id="@+id/ShowTransactionFeatureTextViewForShowingAccountStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/showTransactionFeatureTextViewForShowingAccountStatus"
+                    android:textSize="22sp"
                     android:gravity="top"/>
             </LinearLayout>
 
@@ -52,9 +62,9 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/idForAccountTransactionList"
+        android:id="@+id/ShowTransactionFeatureRecycleViewForShowingAllTransaction"
         android:layout_width="match_parent"
-        android:layout_below="@id/cardViewForAccountProfile"
+        android:layout_below="@id/ShowAccountTransactionFeatureCardViewForShowingAccountDetails"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>

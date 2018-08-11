@@ -14,11 +14,8 @@ import java.util.Random;
 
 public class InternalMemorySupport {
 
-    private static Context contextHere;
-
     public static boolean createAppFolder(Context context){
         try{
-            contextHere = context;
             File mydir = context.getDir(NameRelatedSupport.APP_FOLDER_NAME, Context.MODE_PRIVATE);
             return mydir.exists() || mydir.mkdirs();
         }catch (Exception e){
@@ -37,13 +34,13 @@ public class InternalMemorySupport {
         }
     }
 
-    public static String writeImageFileInInternalMemory(Bitmap bitmap){
+    public static String writeImageFileInInternalMemory(Context context,Bitmap bitmap){
         int randomNumber = new Random().nextInt(1000);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String fileName = sdf.format(new Date()).concat(String.valueOf(randomNumber)).concat(".png");
         Log.d("filename",fileName);
 
-        File internalStorage = contextHere.getDir(NameRelatedSupport.APP_FOLDER_NAME, Context.MODE_PRIVATE);
+        File internalStorage = context.getDir(NameRelatedSupport.APP_FOLDER_NAME, Context.MODE_PRIVATE);
         File reportFilePath = new File(internalStorage, fileName);
         String picturePath = reportFilePath.toString();
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
@@ -14,8 +15,8 @@
         android:layout_margin="2dp">
 
         <ImageView
-            android:id="@+id/idForAccountImage"
-            android:contentDescription="@string/select_account_image"
+            android:id="@+id/ShowAccountListFeatureImageViewForShowingAccountImage"
+            android:contentDescription="@string/showAccountListFeatureImageViewDescription"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="5dp"
@@ -28,7 +29,6 @@
             android:layout_gravity="center_vertical"
             android:background="?android:attr/listDivider"/>
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -40,12 +40,12 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/idForAccountName"
+                    android:id="@+id/ShowAccountListFeatureTextViewForShowingAccountName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="serif"
                     android:textStyle="normal"
-                    android:text="@string/here_goes_to_the_name"
+                    android:text="@string/showAccountListFeatureTextViewForShowingAccountName"
                     android:maxLines="1"
                     android:maxLength="15"
                     android:gravity="bottom"
@@ -53,13 +53,12 @@
                     android:textSize="18sp"
                     android:layout_weight="1"/>
 
-
                 <TextView
-                    android:id="@+id/idForAccountMobileNumber"
+                    android:id="@+id/ShowAccountListFeatureTextViewForShowingAccountMobile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="@string/here_goes_to_the_mobile_number"
+                    android:text="@string/showAccountListFeatureTextViewForShowingMobileNumber"
                     android:maxLines="1"
                     android:gravity="top"
                     android:textColor="@color/ashColor"
@@ -69,24 +68,18 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textViewOptions"
-                android:layout_width="wrap_content"
+                android:id="@+id/ShowAccountListFeatureTextViewForShowingAccountOptions"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:text="@string/menu_sign"
-                android:textSize="35dp"
-                android:layout_margin="10dp"
-                android:gravity="end|center_vertical"
+                android:text="@string/showAccountListFeatureTextViewForShowingMenuSign"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
                 android:textAppearance="?android:textAppearanceLarge" />
 
-
         </RelativeLayout>
-
-
-
-
-
-
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

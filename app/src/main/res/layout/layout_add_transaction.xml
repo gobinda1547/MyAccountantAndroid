@@ -1,44 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="myaccountant.gobinda.cse.ju.org.myaccountant10.add_transaction_feature.AddTransactionActivity">
 
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/AddTransactionFeatureEditTextForAddingTransactionAmount"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:inputType="number"
+        android:maxLines="1"
+        android:maxLength="15"
+        android:textColor="#000"
+        android:background="#f0f0f4"
+        android:padding="10dp"
+        android:hint="@string/addTransactionFeatureEditTextEnterTransactionAmount" />
 
+    <RadioGroup
+        android:id="@+id/AddTransactionFeatureRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/AddTransactionFeatureEditTextForAddingTransactionAmount">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
-
-            <ToggleButton
-                android:id="@+id/addTransactionToggleButtonForJomaKhoroch"
-                android:layout_width="100dp"
-                android:layout_height="match_parent" />
-
-
-            <EditText
-                android:id="@+id/addTransactionEditTextForAmount"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <Button
-            android:layout_width="match_parent"
+        <RadioButton android:id="@+id/AddTransactionFeatureRadioButton1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Done"
-            android:onClick="saveThisTransaction"/>
+            android:layout_weight="1"
+            android:text="@string/addTransactionFeatureRadioButton1"
+            android:gravity="center"/>
+        <RadioButton android:id="@+id/AddTransactionFeatureRadioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/addTransactionFeatureRadioButton2"
+            android:gravity="center"/>
 
+    </RadioGroup>
 
-    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/AddTransactionFeatureRadioGroup"
+        android:text="@string/addTransactionFeatureButtonForSavingNewTransaction"
+        android:onClick="saveThisTransaction"/>
 
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

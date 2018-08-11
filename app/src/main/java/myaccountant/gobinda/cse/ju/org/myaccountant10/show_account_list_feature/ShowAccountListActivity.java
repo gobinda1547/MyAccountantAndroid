@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.ImageProcessingSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.InternalMemorySupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.NameRelatedSupport;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.SizeRelatedSupport;
@@ -42,17 +43,26 @@ import myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_transaction_f
 public class ShowAccountListActivity extends AppCompatActivity {
 
     private Dialog dialogForPopUp;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_account_list);
+        setTitle(R.string.titleForShowAccountListActivity);
 
-        dialogForPopUp = new Dialog(this);
+        initializeVariables();
+        displayScreen();
+    }
 
+    private void displayScreen() {
+        List<Account> accounts = DatabaseHelper.getInstance(this).getAllTheAccountFromTable();
+        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(accounts,this);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void initializeVariables() {
         InternalMemorySupport.createAppFolder(this);
-
-        //one time initialization for screen size
         if(!SizeRelatedSupport.screenSizeInitialized){
             Display display = getWindowManager().getDefaultDisplay();
             Point size = new Point();
@@ -60,13 +70,9 @@ public class ShowAccountListActivity extends AppCompatActivity {
             SizeRelatedSupport.initializeScreenSize(size.x, size.y);
         }
 
-        RecyclerView recyclerView = findViewById(R.id.idForAccountList);
+        dialogForPopUp = new Dialog(this);
+        recyclerView = findViewById(R.id.ShowAccountListFeatureRecycleViewForShowingAccountList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-        List<Account> accounts = DatabaseHelper.getInstance(this).getAllTheAccountFromTable();
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(accounts,this);
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -78,13 +84,17 @@ public class ShowAccountListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.mainActivityMenuAddNewAccount){
+        if(item.getItemId() == R.id.menuForAddNewAccount){
             Intent intent = new Intent(ShowAccountListActivity.this, AddAccountActivity.class);
-            intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.SHOW_ACCOUNT_LIST_ACTIVITY);
             startActivity(intent);
-            finish();
         }
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayScreen();
     }
 
     public class MyRecyclerViewAdapter  extends RecyclerView.Adapter<MyRecyclerViewAdapter.AccountViewHolder>{
@@ -132,10 +142,10 @@ public class ShowAccountListActivity extends AppCompatActivity {
             private AccountViewHolder(View itemView) {
                 super(itemView);
 
-                accountNameTextView = itemView.findViewById(R.id.idForAccountName);
-                accountMobileNumberTextView = itemView.findViewById(R.id.idForAccountMobileNumber);
-                accountImageImageView = itemView.findViewById(R.id.idForAccountImage);
-                textViewOptions = itemView.findViewById(R.id.textViewOptions);
+                accountNameTextView = itemView.findViewById(R.id.ShowAccountListFeatureTextViewForShowingAccountName);
+                accountMobileNumberTextView = itemView.findViewById(R.id.ShowAccountListFeatureTextViewForShowingAccountMobile);
+                accountImageImageView = itemView.findViewById(R.id.ShowAccountListFeatureImageViewForShowingAccountImage);
+                textViewOptions = itemView.findViewById(R.id.ShowAccountListFeatureTextViewForShowingAccountOptions);
 
                 itemView.setOnClickListener(this);
                 /*
@@ -156,10 +166,10 @@ public class ShowAccountListActivity extends AppCompatActivity {
 
                         dialogForPopUp.setContentView(R.layout.popup_show_account_details);
 
-                        ImageView popUpImage = dialogForPopUp.findViewById(R.id.popUpAccountDetailsImage);
-                        TextView popUpName = dialogForPopUp.findViewById(R.id.popUpAccountDetailsName);
-                        TextView popUpMobile = dialogForPopUp.findViewById(R.id.popUpAccountDetailsMobile);
-                        Button popUpDismissButton = dialogForPopUp.findViewById(R.id.popUpAccountDetailsDismissButton);
+                        ImageView popUpImage = dialogForPopUp.findViewById(R.id.ShowAccountDetailsFeaturePopUpAccountImage);
+                        TextView popUpName = dialogForPopUp.findViewById(R.id.ShowAccountDetailsFeaturePopUpAccountName);
+                        TextView popUpMobile = dialogForPopUp.findViewById(R.id.ShowAccountDetailsFeaturePopUpAccountMobileNumber);
+                        Button popUpDismissButton = dialogForPopUp.findViewById(R.id.ShowAccountDetailsFeaturePopUpDismissButton);
 
                         Bitmap bitmap = InternalMemorySupport.getImageFileFromThisLocation(account.getAccountImageLocation());
 
@@ -167,7 +177,7 @@ public class ShowAccountListActivity extends AppCompatActivity {
                         popUpName.setText(account.getAccountName());
                         popUpMobile.setText(account.getAccountMobileNumber());
                         if(account.getAccountMobileNumber().length() == 0){
-                            popUpMobile.setText("Mobile Number Not Found!");
+                            popUpMobile.setText(NameRelatedSupport.MOBILE_NOT_FOUND);
                         }
 
                         popUpDismissButton.setOnClickListener(new View.OnClickListener() {
@@ -193,13 +203,10 @@ public class ShowAccountListActivity extends AppCompatActivity {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
-                                    case R.id.menu1:
-                                        Toast.makeText(ShowAccountListActivity.this,"menu 1 selected!",Toast.LENGTH_LONG).show();                                    break;
-                                    case R.id.menu2:
-                                        Toast.makeText(ShowAccountListActivity.this,"menu 1 selected!",Toast.LENGTH_LONG).show();
-                                        break;
-                                    case R.id.menu3:
-                                        Toast.makeText(ShowAccountListActivity.this,"menu 1 selected!",Toast.LENGTH_LONG).show();
+                                    case R.id.menuForCall:
+                                        Toast.makeText(ShowAccountListActivity.this,"menu For Call",Toast.LENGTH_LONG).show();                                    break;
+                                    case R.id.menuForMessage:
+                                        Toast.makeText(ShowAccountListActivity.this,"menu for message",Toast.LENGTH_LONG).show();
                                         break;
                                 }
                                 return false;
@@ -213,10 +220,8 @@ public class ShowAccountListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( ShowAccountListActivity.this , ShowAccountTransactionActivity.class);
-                intent.putExtra(NameRelatedSupport.ACCOUNT_ID,String.valueOf(account.getAccountId()));
-                intent.putExtra(NameRelatedSupport.PARENT_ACTIVITY_NAME, NameRelatedSupport.SHOW_ACCOUNT_LIST_ACTIVITY);
+                intent.putExtra(NameRelatedSupport.ACCOUNT_ID, String.valueOf(account.getAccountId()));
                 startActivity(intent);
-                finish();
             }
 
             private void showThisAccount(Account account){
@@ -226,7 +231,7 @@ public class ShowAccountListActivity extends AppCompatActivity {
                 //showing mobile number
                 String mobileNumber = account.getAccountMobileNumber();
                 if(mobileNumber.length() == 0){
-                    accountMobileNumberTextView.setText("Mobile Number Not Found!");
+                    accountMobileNumberTextView.setText(NameRelatedSupport.MOBILE_NOT_FOUND);
                 }else{
                     accountMobileNumberTextView.setText(mobileNumber);
                 }
@@ -234,10 +239,9 @@ public class ShowAccountListActivity extends AppCompatActivity {
                 //reading file and showing
                 Bitmap image = InternalMemorySupport.getImageFileFromThisLocation(account.getAccountImageLocation());
                 if(image == null){
-                    accountImageImageView.setImageResource(R.drawable.b);
-                }else{
-                    accountImageImageView.setImageBitmap(image);
+                    image = ImageProcessingSupport.getDefaultAccountImage(ShowAccountListActivity.this);
                 }
+                accountImageImageView.setImageBitmap(image);
             }
 
 

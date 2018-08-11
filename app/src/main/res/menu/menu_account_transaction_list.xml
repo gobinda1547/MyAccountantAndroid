@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/addTransactionMenuItem"
+        android:id="@+id/menuForAddNewTransaction"
         android:icon="@android:drawable/ic_input_add"
         app:showAsAction="always"
-        android:title="@string/add_new_transaction"
+        android:title="@string/MenuForAddNewTransaction"
         />
 
 </menu>
