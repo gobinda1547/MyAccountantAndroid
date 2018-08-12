@@ -10,6 +10,7 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,7 +25,6 @@
             android:launchMode= "singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -51,18 +51,23 @@
         <activity
             android:name=".take_image_feature.TakeImageActivity"
             android:launchMode= "singleInstance">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".add_account_feature.AddAccountActivity" />
         </activity>
 
 
         <activity android:name=".show_account_transaction_feature.ShowAccountTransactionActivity"
-            android:launchMode= "singleInstance"/>
+            android:launchMode= "singleInstance">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".show_account_list_feature.ShowAccountListActivity" />
+        </activity>
 
 
         <activity android:name=".add_transaction_feature.AddTransactionActivity"
-            android:launchMode= "singleInstance"/>
+            android:launchMode= "singleInstance">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".show_account_transaction_feature.ShowAccountTransactionActivity" />
+        </activity>
 
     </application>
 

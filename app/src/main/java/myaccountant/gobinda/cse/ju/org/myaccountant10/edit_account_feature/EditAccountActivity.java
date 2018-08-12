@@ -36,6 +36,7 @@ public class EditAccountActivity extends AppCompatActivity {
     }
 
     private void displayScreen() {
+
         Bitmap userSelectedNewImage = TakeImageActivity.getUserSelectedImage();
         if(userSelectedNewImage != null){
             imageViewForImage.setImageBitmap(userSelectedNewImage);
@@ -51,6 +52,9 @@ public class EditAccountActivity extends AppCompatActivity {
 
         int currentAccountId = Integer.parseInt(getIntent().getStringExtra(NameRelatedSupport.ACCOUNT_ID));
         currentAccount = DatabaseHelper.getInstance(this).getAccountAccordingToID(currentAccountId);
+
+        editTextForName.setText(currentAccount.getAccountName());
+        editTextForMobile.setText(currentAccount.getAccountMobileNumber());
     }
 
     @Override

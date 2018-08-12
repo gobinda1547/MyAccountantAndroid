@@ -70,6 +70,8 @@
     <string name="TakeImageFeatureButtonForFlipCamera">Flip Camera</string>
     <string name="TakeImageFeatureButtonForCaptureImage">Capture</string>
     <string name="TakeImageFeatureButtonForUseThisImage">Use This Image</string>
+
+
     <string name="MenuItemForAddNewTransaction">Add Transaction</string>
     <string name="MenuForCallAccountPerson">Call This Person</string>
     <string name="MenuForMessageAccountPerson">Message This Person</string>
@@ -80,9 +82,8 @@
     <!-- save money or spent money -->
     <string name="giveMoney">দিয়েছেন</string>
     <string name="takeMoney">নিয়েছেন</string>
-
-
-
+    <string name="menuItemForDeleteAccount">Delete This Account</string>
+    <string name="menuForDeleteAllTransaction">Delete All Transaction</string>
 
 
 </resources>

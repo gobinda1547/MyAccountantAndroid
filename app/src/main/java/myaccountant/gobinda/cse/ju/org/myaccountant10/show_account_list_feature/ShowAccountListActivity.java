@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +37,7 @@ import myaccountant.gobinda.cse.ju.org.myaccountant10.ExtraSupport.SizeRelatedSu
 import myaccountant.gobinda.cse.ju.org.myaccountant10.add_account_feature.AddAccountActivity;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.R;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.DatabaseHelper;
+import myaccountant.gobinda.cse.ju.org.myaccountant10.edit_account_feature.EditAccountActivity;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Account;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.show_account_transaction_feature.ShowAccountTransactionActivity;
 
@@ -130,7 +132,7 @@ public class ShowAccountListActivity extends AppCompatActivity {
             accountViewHolder.showThisAccount(accounts.get(i));
         }
 
-        class AccountViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class AccountViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
             private Account account;
 
@@ -148,6 +150,7 @@ public class ShowAccountListActivity extends AppCompatActivity {
                 textViewOptions = itemView.findViewById(R.id.ShowAccountListFeatureTextViewForShowingAccountOptions);
 
                 itemView.setOnClickListener(this);
+                itemView.setOnLongClickListener(this);
                 /*
                 accountImageImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -202,11 +205,20 @@ public class ShowAccountListActivity extends AppCompatActivity {
                         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
+
+                                if(account.getAccountMobileNumber().length() == 0){
+                                    Toast.makeText(ShowAccountListActivity.this,"Mobile Number Not Available!",Toast.LENGTH_LONG).show();
+                                    return false;
+                                }
+
                                 switch (item.getItemId()) {
                                     case R.id.menuForCall:
-                                        Toast.makeText(ShowAccountListActivity.this,"menu For Call",Toast.LENGTH_LONG).show();                                    break;
+                                        Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + account.getAccountMobileNumber()));
+                                        startActivity(intent1);
+                                        break;
                                     case R.id.menuForMessage:
-                                        Toast.makeText(ShowAccountListActivity.this,"menu for message",Toast.LENGTH_LONG).show();
+                                        Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", account.getAccountMobileNumber(), null));
+                                        startActivity(intent2);
                                         break;
                                 }
                                 return false;
@@ -222,6 +234,14 @@ public class ShowAccountListActivity extends AppCompatActivity {
                 Intent intent = new Intent( ShowAccountListActivity.this , ShowAccountTransactionActivity.class);
                 intent.putExtra(NameRelatedSupport.ACCOUNT_ID, String.valueOf(account.getAccountId()));
                 startActivity(intent);
+            }
+
+            @Override
+            public boolean onLongClick(View view) {
+                Intent intent = new Intent( ShowAccountListActivity.this , EditAccountActivity.class);
+                intent.putExtra(NameRelatedSupport.ACCOUNT_ID, String.valueOf(account.getAccountId()));
+                startActivity(intent);
+                return true;
             }
 
             private void showThisAccount(Account account){

@@ -9,14 +9,16 @@ import myaccountant.gobinda.cse.ju.org.myaccountant10.database_helper.DatabaseHe
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Account;
 import myaccountant.gobinda.cse.ju.org.myaccountant10.oop_classes.Transaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,10 +37,11 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
 
     private Account currentAccount;
 
-    private TextView textViewForAccountName;
     private TextView textViewForAccountBalance;
     private TextView textViewForAccountStatus;
     private ImageView imageViewForAccountImage;
+
+    private TextView accountOptions;
 
     private RecyclerView recyclerView;
 
@@ -47,7 +50,7 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_show_account_transaction);
-        setTitle(R.string.titleForShowAccountTransactionActivity);
+        //setTitle(R.string.titleForShowAccountTransactionActivity);
 
         initializeVariables();
         displayScreen();
@@ -55,7 +58,7 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
 
     public void displayScreen(){
 
-        textViewForAccountName.setText(currentAccount.getAccountName());
+        setTitle(currentAccount.getAccountName());
 
         List<Transaction> transactions = DatabaseHelper.getInstance(this).getAllTheTransactionForTheAccountID(currentAccount.getAccountId());
         ShowAccountTransactionActivity.MyRecyclerViewAdapter adapter = new ShowAccountTransactionActivity.MyRecyclerViewAdapter(transactions);
@@ -76,11 +79,13 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
             textViewForAccountBalance.setText(String.valueOf(balance));
             textViewForAccountBalance.append(" "+NameRelatedSupport.TAKA);
             textViewForAccountBalance.setTextColor(Color.BLACK);
+            textViewForAccountStatus.setTextColor(Color.BLACK);
             textViewForAccountStatus.setText(NameRelatedSupport.APNI_PABEN);
         }else{
             textViewForAccountBalance.setText(String.valueOf(-balance));
             textViewForAccountBalance.append(" "+NameRelatedSupport.TAKA);
             textViewForAccountBalance.setTextColor(Color.RED);
+            textViewForAccountStatus.setTextColor(Color.RED);
             textViewForAccountStatus.setText(NameRelatedSupport.APNAR_KACE_PABE);
         }
 
@@ -88,7 +93,6 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
 
     private void initializeVariables() {
         textViewForAccountBalance = findViewById(R.id.ShowTransactionFeatureTextViewForShowingAccountBalance);
-        textViewForAccountName = findViewById(R.id.ShowTransactionFeatureTextViewForShowingAccountName);
         textViewForAccountStatus = findViewById(R.id.ShowTransactionFeatureTextViewForShowingAccountStatus);
         imageViewForAccountImage = findViewById(R.id.ShowTransactionFeatureImageViewForShowingAccountImage);
 
@@ -97,6 +101,69 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.ShowTransactionFeatureRecycleViewForShowingAllTransaction);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        accountOptions = findViewById(R.id.ShowTransactionFeatureTextViewForShowingAccountOptions);
+        accountOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PopupMenu popup = new PopupMenu(ShowAccountTransactionActivity.this, accountOptions);
+                popup.inflate(R.menu.menu_transaction_list_account_options);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+
+                        switch (item.getItemId()) {
+                            case R.id.menuForDeleteAccount:
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(ShowAccountTransactionActivity.this);
+                                builder1.setTitle("Delete This Account");
+                                builder1.setMessage("Are you sure?");
+                                builder1.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        DatabaseHelper.getInstance(ShowAccountTransactionActivity.this).deleteAccount(currentAccount);
+                                        DatabaseHelper.getInstance(ShowAccountTransactionActivity.this).deleteAllTransaction(currentAccount);
+                                        InternalMemorySupport.deleteImageFileFromInternalMemory(currentAccount.getAccountImageLocation());
+                                        Toast.makeText(ShowAccountTransactionActivity.this,"Account Deleted!",Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
+                                        finish();
+                                    }
+                                });
+                                builder1.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                AlertDialog alert1 = builder1.create();
+                                alert1.show();
+                                return true;
+                            case R.id.menuForDeleteAllTransaction:
+                                AlertDialog.Builder builder2 = new AlertDialog.Builder(ShowAccountTransactionActivity.this);
+                                builder2.setTitle("Delete All Transactions");
+                                builder2.setMessage("Are you sure?");
+                                builder2.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        DatabaseHelper.getInstance(ShowAccountTransactionActivity.this).deleteAllTransaction(currentAccount);
+                                        dialog.dismiss();
+                                        Toast.makeText(ShowAccountTransactionActivity.this,"All Transaction Deleted!",Toast.LENGTH_SHORT).show();
+                                        displayScreen();
+                                    }
+                                });
+                                builder2.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                AlertDialog alert2 = builder2.create();
+                                alert2.show();
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
+            }
+        });
     }
 
 
@@ -141,7 +208,6 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
                 }
             });
             this.transactions = transactions;
-            Log.d("print", String.valueOf(transactions.size()));
         }
 
         @Override
@@ -160,7 +226,7 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
             transactionViewHolder.showThisTransaction(transactions.get(i));
         }
 
-        class TransactionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class TransactionViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
             private Transaction transaction;
 
@@ -168,19 +234,37 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
             private TextView transactionStatusTextView;
             private TextView transactionAmountTextView;
 
-            private TransactionViewHolder(View itemView) {
-                super(itemView);
 
+            private TransactionViewHolder( View itemView) {
+                super(itemView);
                 transactionDateTextView = itemView.findViewById(R.id.ShowTransactionListFeatureTextViewForShowingTransactionDateTime);
                 transactionStatusTextView = itemView.findViewById(R.id.ShowTransactionListFeatureTextViewForShowingTransactionStatus);
                 transactionAmountTextView = itemView.findViewById(R.id.ShowTransactionListFeatureTextViewForShowingTransactionAmount);
 
-                itemView.setOnClickListener(this);
+                itemView.setOnLongClickListener(this);
             }
 
             @Override
-            public void onClick(View view) {
-                Toast.makeText(ShowAccountTransactionActivity.this,String.valueOf(transaction.getTransactionBalance()),Toast.LENGTH_LONG).show();
+            public boolean onLongClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ShowAccountTransactionActivity.this);
+                builder.setTitle("Delete This Transaction");
+                builder.setMessage("Are you sure?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseHelper.getInstance(ShowAccountTransactionActivity.this).deleteTransaction(transaction);
+                        Toast.makeText(ShowAccountTransactionActivity.this,"Transaction Deleted!",Toast.LENGTH_SHORT).show();
+                        displayScreen();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+                return true;
             }
 
             private void showThisTransaction(Transaction transaction){
@@ -207,6 +291,8 @@ public class ShowAccountTransactionActivity extends AppCompatActivity {
                     transactionAmountTextView.setText(String.valueOf(transaction.getTransactionBalance()));
                 }
             }
+
+
         }
 
     }

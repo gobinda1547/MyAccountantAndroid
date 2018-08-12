@@ -159,7 +159,16 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
         return acc;
     }
 
-
+    public void deleteAccount(Account account){
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            String condition = C1+"=?";
+            String[] values = new String[]{String.valueOf(account.getAccountId())};
+            db.delete(TABLE_NAME1, condition, values);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
     public List<Transaction> getAllTheTransactionForTheAccountID(int accountID){
@@ -199,6 +208,28 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
             return false;
         }
         return true;
+    }
+
+    public void deleteTransaction(Transaction transaction){
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            String condition = T1+"=?";
+            String[] values = new String[]{String.valueOf(transaction.getTransactionID())};
+            db.delete(TABLE_NAME2, condition, values);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAllTransaction(Account account){
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            String condition = T2+"=?";
+            String[] values = new String[]{String.valueOf(account.getAccountId())};
+            db.delete(TABLE_NAME2, condition, values);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
